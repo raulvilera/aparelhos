@@ -672,57 +672,6 @@
     </style>
 </head>
 <body>
-    // Funções de autenticação corrigidas
-function login() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    
-    auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            // Login bem-sucedido
-            currentUser = userCredential.user;
-            
-            // Esconde a tela de login e mostra o sistema principal
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainSystem').style.display = 'block';
-            
-            // Atualiza o nome do usuário no header
-            document.getElementById('currentUser').textContent = currentUser.email.split('@')[0];
-            
-            // Carrega os dados iniciais do sistema
-            updateDashboard();
-            loadEquipmentTable();
-            loadReservationsTable();
-            loadMaintenanceTable();
-        })
-        .catch((error) => {
-            alert('Erro ao fazer login: ' + error.message);
-        });
-}
-
-// Listener de estado de autenticação simplificado
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        // Usuário está logado
-        currentUser = user;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('mainSystem').style.display = 'block';
-        document.getElementById('currentUser').textContent = currentUser.email.split('@')[0];
-    } else {
-        // Usuário não está logado
-        document.getElementById('loginScreen').style.display = 'block';
-        document.getElementById('mainSystem').style.display = 'none';
-    }
-});
-
-function logout() {
-    auth.signOut().then(() => {
-        currentUser = null;
-        // Não é necessário resetar os valores do login aqui
-    }).catch((error) => {
-        alert('Erro ao fazer logout: ' + error.message);
-    });
-}
 
     <!-- Sistema Principal -->
     <div id="mainSystem" style="display: none;">
@@ -1157,8 +1106,7 @@ function logout() {
             
             loadRegistrationTable();
         });
-
-// Funções de autenticação corrigidas
+ Funções de autenticação corrigidas
 function login() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
@@ -1200,6 +1148,27 @@ auth.onAuthStateChanged((user) => {
         document.getElementById('mainSystem').style.display = 'none';
     }
 });
+
+function logout() {
+    auth.signOut().then(() => {
+        currentUser = null;
+        // Não é necessário resetar os valores do login aqui
+    }).catch((error) => {
+        alert('Erro ao fazer logout: ' + error.message);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+        
 
 function logout() {
     auth.signOut().then(() => {
