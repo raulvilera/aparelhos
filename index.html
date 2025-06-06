@@ -16,8 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
- <style>
-    /* ESTILOS UNIFICADOS (Original + Registro) */
+    <style>
+        /* ESTILOS UNIFICADOS (Original + Registro) */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #34495e;
@@ -56,7 +56,7 @@
             padding: 20px;
         }
 
-        / CABEÇALHO /
+        /* CABEÇALHO */
         header {
             background-color: var(--primary-color);
             color: var(--white);
@@ -102,7 +102,7 @@
             background-color: #c0392b;
         }
 
-        / NAVEGAÇÃO /
+        /* NAVEGAÇÃO */
         .nav-tabs {
             display: flex;
             background-color: var(--secondary-color);
@@ -1033,7 +1033,8 @@
             </div>
         </div>
     </div>
- <!-- Modais -->
+
+    <!-- Modais -->
     <div id="equipmentModal" class="modal"><!-- Conteúdo --></div>
     <div id="editEquipmentModal" class="modal"><!-- Conteúdo --></div>
     <div id="reservationModal" class="modal"><!-- Conteúdo --></div>
@@ -1041,7 +1042,7 @@
     <div id="maintenanceModal" class="modal"><!-- Conteúdo --></div>
     <div id="maintenanceDetailModal" class="modal"><!-- Conteúdo --></div>
 
-<script>
+   <script>
         // Configuração corrigida do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBOoXyLQPfgzQM06LVy-TRSPdSM_8CjcE",
@@ -1060,90 +1061,6 @@
         const auth = firebase.auth();
 
         // Variáveis globais
-        let currentUser = null;
-        let registros = [];
-        let uploadedFiles = [];
-        let equipmentCounter = 1;
-
-               // Dados de exemplo
-        const equipamentos = {
-            "NOTEBOOK": [
-                { id: "NB001", serial: "SN123456789", status: "Disponível" },
-                { id: "NB002", serial: "SN987654321", status: "Disponível" },
-                { id: "NB003", serial: "SN456789123", status: "Manutenção" }
-            ],
-            "TABLET": [
-                { id: "TAB001", serial: "SNTAB001", status: "Disponível" },
-                { id: "TAB002", serial: "SNTAB002", status: "Em uso" },
-                { id: "TAB003", serial: "SNTAB003", status: "Disponível" }
-            ],
-            "SMARTPHONE": [
-                { id: "SP001", serial: "SNSP001", status: "Disponível" },
-                { id: "SP002", serial: "SNSP002", status: "Com avarias" }
-            ],
-            "HEAD SET": [
-                { id: "HS001", serial: "SNHS001", status: "Disponível" },
-                { id: "HS002", serial: "SNHS002", status: "Disponível" }
-            ],
-            "CHROMEBOOK": [
-                { id: "CB001", serial: "SNCB001", status: "Disponível" },
-                { id: "CB002", serial: "SNCB002", status: "Em uso" }
-            ],
-            "CAIXA DE SOM": [
-                { id: "CS001", serial: "SNCS001", status: "Disponível" },
-                { id: "CS002", serial: "SNCS002", status: "Disponível" }
-            ]
-        };
-
-        const professores = {
-            "ADEMAR RIBEIRO DE SOUZA": "ademarribeirosouza@prof.educacao.sp.gov.br",
-            "ALEX LUTH PEREIRA MARANHAO": "luth@prof.educacao.sp.gov.br",
-            "ALEXANDRE SILVA LIMA": "alexandresilvalima@prof.educacao.sp.gov.br",
-            "WILSON RODRIGUES MOTA": "wmota@prof.educacao.sp.gov.br"
-        };
-
-        const salasPorTurmaPeriodo = {
-            "6° ANO A MANHA": "Sala 1",
-            "6° ANO B MANHA": "Sala 2",
-            "6° ANO C MANHA": "Sala 3",
-            "4050 - ADMINISTRAÇÃO - 2ª SERIE A MANHA": "Laboratório 1"
-        };
-
-        // Inicialização do sistema
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('withdrawalDate').value = today;
-            document.getElementById('returnDate').value = today;
-            
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('withdrawalTime').value = `${hours}:${minutes}`;
-            document.getElementById('returnTime').value = `${hours}:${minutes}`;
-            
-            loadRegistrationTable();
-        });
-
-
-        // Função de login corrigida
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    currentUser = userCredential.user;
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('mainSystem').style.display = 'block';
-                    document.getElementById('currentUser').textContent = currentUser.email.split('@')[0];
-                })
-                .catch((error) => {
-                    alert('Erro ao fazer login: ' + error.message);
-                    console.error('Erro de login:', error);
-                });
-        }
-
-// Variáveis globais
         let currentUser = null;
         let registros = [];
         let uploadedFiles = [];
@@ -1208,7 +1125,7 @@
             loadRegistrationTable();
         });
 
-        // Funções de autenticação
+        // Função de login corrigida
         function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -1222,9 +1139,10 @@
                 })
                 .catch((error) => {
                     alert('Erro ao fazer login: ' + error.message);
+                    console.error('Erro de login:', error);
                 });
         }
-
+       
         function logout() {
             auth.signOut().then(() => {
                 document.getElementById('mainSystem').style.display = 'none';
