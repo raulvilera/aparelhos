@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestão de Equipamentos Tecnológicos</title>
-    
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    
-    <!-- Bibliotecas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* ESTILOS UNIFICADOS (Original + Registro) */
+        /* ===== VARIÁVEIS DE CORES ===== */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #34495e;
@@ -37,6 +32,7 @@
             --transition: all 0.3s ease;
         }
 
+        /* ===== ESTILOS GERAIS ===== */
         * {
             margin: 0;
             padding: 0;
@@ -56,7 +52,7 @@
             padding: 20px;
         }
 
-        /* CABEÇALHO */
+        /* ===== CABEÇALHO ===== */
         header {
             background-color: var(--primary-color);
             color: var(--white);
@@ -102,13 +98,14 @@
             background-color: #c0392b;
         }
 
-        /* NAVEGAÇÃO */
+        /* ===== NAVEGAÇÃO ===== */
         .nav-tabs {
             display: flex;
             background-color: var(--secondary-color);
             border-radius: var(--border-radius);
             overflow: hidden;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         .nav-tab {
@@ -120,6 +117,7 @@
             cursor: pointer;
             text-align: center;
             flex: 1;
+            min-width: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -134,7 +132,7 @@
             background-color: var(--accent-color);
         }
 
-        /* CONTEÚDO DAS ABAS */
+        /* ===== CONTEÚDO DAS ABAS ===== */
         .tab-content {
             display: none;
             background-color: var(--white);
@@ -154,7 +152,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* FORMULÁRIOS */
+        /* ===== FORMULÁRIOS ===== */
         .form-title {
             margin-bottom: 20px;
             color: var(--primary-color);
@@ -263,9 +261,10 @@
             margin-top: 20px;
         }
 
-        /* TABELAS */
+        /* ===== TABELAS ===== */
         .table-responsive {
             overflow-x: auto;
+            margin-top: 20px;
         }
 
         .data-table {
@@ -326,7 +325,7 @@
             color: white;
         }
 
-        /* DASHBOARD */
+        /* ===== CARDS DE DASHBOARD ===== */
         .dashboard-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -392,7 +391,7 @@
             color: var(--primary-color);
         }
 
-        /* GRÁFICOS */
+        /* ===== GRÁFICOS ===== */
         .chart-container {
             background-color: var(--white);
             border-radius: var(--border-radius);
@@ -402,7 +401,7 @@
             height: 400px;
         }
 
-        /* MODAIS */
+        /* ===== MODAIS ===== */
         .modal {
             display: none;
             position: fixed;
@@ -465,25 +464,47 @@
             gap: 10px;
         }
 
-        /* REGISTRO DE EQUIPAMENTOS */
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .nav-tab {
+                padding: 12px 5px;
+                font-size: 14px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* ===== ESTILOS PARA A PÁGINA DE REGISTRO ===== */
         .register-form {
             background-color: #f8f9fa;
             padding: 25px;
             border-radius: var(--border-radius);
             margin-bottom: 30px;
         }
-
+        
         .equipment-row {
             display: flex;
             gap: 15px;
             margin-bottom: 15px;
             align-items: flex-end;
+            flex-wrap: wrap;
         }
-
+        
         .equipment-row > div {
             flex: 1;
+            min-width: 200px;
         }
-
+        
         .add-equipment-btn {
             background-color: var(--success-color);
             color: white;
@@ -497,7 +518,7 @@
             align-items: center;
             justify-content: center;
         }
-
+        
         .remove-equipment-btn {
             background-color: var(--danger-color);
             color: white;
@@ -511,40 +532,42 @@
             align-items: center;
             justify-content: center;
         }
-
+        
         .time-input-group {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
-
+        
         .time-input-group .form-group {
             flex: 1;
+            min-width: 200px;
         }
-
+        
         .auto-fill-label {
             font-size: 12px;
             color: var(--gray-dark);
             margin-top: 5px;
         }
-
+        
         .registration-codes {
             background-color: #e8f4fc;
             padding: 15px;
             border-radius: var(--border-radius);
             margin-bottom: 20px;
         }
-
+        
         .registration-codes h4 {
             margin-bottom: 10px;
             color: var(--primary-color);
         }
-
+        
         .codes-list {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
-
+        
         .code-item {
             background-color: var(--accent-color);
             color: white;
@@ -552,8 +575,8 @@
             border-radius: 4px;
             font-size: 14px;
         }
-
-        /* TERMO DE RESPONSABILIDADE */
+        
+        /* ===== ESTILOS PARA O TERMO DE RESPONSABILIDADE ===== */
         .termo-container {
             padding: 20px;
             background-color: white;
@@ -562,7 +585,7 @@
             margin-top: 20px;
             display: none;
         }
-
+        
         .termo-title {
             text-align: center;
             font-size: 18px;
@@ -570,48 +593,122 @@
             margin-bottom: 20px;
             color: var(--primary-color);
         }
-
+        
         .termo-content {
             line-height: 1.8;
         }
-
+        
         .termo-signature {
             margin-top: 40px;
             text-align: center;
         }
-
+        
         .termo-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-
+        
         .termo-table th, .termo-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
-
+        
         .termo-table th {
             background-color: #f2f2f2;
         }
-
+        
         .termo-info {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
-
+        
         .termo-info-item {
             flex: 1;
+            min-width: 250px;
         }
-
+        
         .download-btn {
             margin-top: 20px;
             text-align: center;
         }
 
-        /* STATUS */
+        /* ===== ESTILOS ESPECÍFICOS PARA RELATÓRIOS ===== */
+        .report-section {
+            margin-bottom: 30px;
+        }
+
+        .report-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .equipment-category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        /* ===== ESTILOS PARA O FORMULÁRIO DE AGENDAMENTO ===== */
+        .schedule-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .schedule-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        /* ===== ESTILOS PARA O HISTÓRICO ===== */
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .history-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .history-date {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .history-action {
+            margin-top: 5px;
+        }
+
+        /* ===== ESTILOS PARA O FILTRO DE EQUIPAMENTOS ===== */
+        .filter-container {
+            background-color: var(--white);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* ===== ESTILOS PARA O STATUS DOS EQUIPAMENTOS ===== */
         .status-indicator {
             display: inline-block;
             width: 12px;
@@ -639,35 +736,292 @@
         .status-unused {
             background-color: var(--gray-medium);
         }
+        
+        /* ===== ESTILOS PARA LISTAS DROPDOWN ===== */
+        .dropdown-container {
+            position: relative;
+        }
+        
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: none;
+        }
+        
+        .dropdown-item {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-visible {
+            display: block;
+        }
 
-        /* RESPONSIVIDADE */
-        @media (max-width: 768px) {
-            .nav-tabs {
-                flex-wrap: wrap;
-            }
-            
-            .nav-tab {
-                flex: 1 0 33%;
-                padding: 12px 5px;
-                font-size: 14px;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .equipment-row {
-                flex-direction: column;
-                gap: 10px;
-            }
+        /* ===== ESTILOS PARA QR CODE ===== */
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .qr-button {
+            background-color: var(--info-color);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .qr-button:hover {
+            background-color: #1a60999;
+        }
+
+        /* ===== ESTILOS PARA CALENDÁRIO DE RESERVAS ===== */
+        .calendar-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border-radius: 4px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 15px 5px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 80px;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background-color: #e8f4fc;
+        }
+
+        .calendar-day.empty {
+            background-color: transparent;
+            cursor: default;
+        }
+
+        .calendar-day.reserved {
+            background-color: #ffeaa7;
+        }
+
+        .calendar-day-number {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 14px;
+        }
+
+        .reservation-item {
+            margin-top: 25px;
+            font-size: 12px;
+            background-color: #fef9e7;
+            padding: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calendar-day.today {
+            background-color: #d6eaf8;
+            font-weight: bold;
+        }
+
+        .reservation-form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .edit-btn {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .reservation-detail {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+        }
+        
+        .history-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .history-detail-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .history-detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* ===== NOVOS ESTILOS PARA AS NOVAS FUNCIONALIDADES ===== */
+        
+        /* Estilos para a tabela de registro com cores */
+        .not-returned {
+            background-color: #e74c3c !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .returned {
+            background-color: #3498db !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .partial-return {
+            background-color: #f39c12 !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Estilos para os popups de manutenção */
+        .sub-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 2000;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .sub-modal-content {
+            margin-bottom: 15px;
+        }
+        
+        .sub-modal-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .sub-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        /* Estilos para a aba de manutenção */
+        .maintenance-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+        }
+        
+        .technical-support-form {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+        }
+        
+        /* Estilos para a aba de reserva */
+        .reservation-fields {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+        
+        /* Estilo para o overlay de modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
         }
     </style>
 </head>
@@ -690,7 +1044,7 @@
         </div>
     </div>
 
-    <!-- Sistema Principal -->
+    <!-- Sistema Principal (inicialmente oculto) -->
     <div id="mainSystem" style="display: none;">
         <header>
             <div class="header-content">
@@ -713,101 +1067,544 @@
                 <div class="nav-tab" onclick="openTab('register')">
                     <i class="fas fa-cubes"></i> Cadastro
                 </div>
+                <div class="nav-tab" onclick="openTab('reserve')">
+                    <i class="fas fa-calendar-check"></i> Reserva
+                </div>
+                <div class="nav-tab" onclick="openTab('maintenance')">
+                    <i class="fas fa-wrench"></i> Manutenção
+                </div>
                 <div class="nav-tab" onclick="openTab('reservations')">
                     <i class="fas fa-calendar-alt"></i> Reservas
                 </div>
                 <div class="nav-tab" onclick="openTab('reports')">
-                    <i class="fas fa-file-alt"></i> Relatórios
-                </div>
-                <div class="nav-tab" onclick="openTab('maintenance')">
-                    <i class="fas fa-tools"></i> Manutenção
+                    <i class="fas fa-file-alt"></i> Relatório
                 </div>
                 <div class="nav-tab" onclick="openTab('registration')">
                     <i class="fas fa-clipboard-list"></i> Registro
+                </div>
+                <div class="nav-tab" onclick="openTab('history')">
+                    <i class="fas fa-history"></i> Histórico
                 </div>
             </div>
 
             <!-- Dashboard -->
             <div id="dashboard" class="tab-content active">
-                <!-- Conteúdo do Dashboard -->
+                <h2 class="form-title">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </h2>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="dashboardEquipmentFilter">Filtrar por Equipamento</label>
+                        <select id="dashboardEquipmentFilter" class="form-control" onchange="updateDashboard()">
+                            <option value="all">Todos os Equipamentos</option>
+                            <option value="Notebook do aluno">Notebook do aluno</option>
+                            <option value="Chromebooks">Chromebooks</option>
+                            <option value="Smartphone">Smartphone</option>
+                            <option value="Tablets">Tablets</option>
+                            <option value="Notebook Ultra">Notebook Ultra</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="dashboardLocationFilter">Filtrar por Local</label>
+                        <select id="dashboardLocationFilter" class="form-control" onchange="updateDashboard()">
+                            <option value="all">Todos os Locais</option>
+                            <option value="Sala dos professores">Sala dos professores</option>
+                            <option value="Sala de informática">Sala de informática</option>
+                            <option value="Depósito 1ª andar">Depósito 1ª andar</option>
+                            <option value="Coordenação">Coordenação</option>
+                            <option value="Direção">Direção</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Em Uso</div>
+                            <div class="card-icon primary">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                        </div>
+                        <div class="card-body" id="inUseCount">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Disponíveis</div>
+                            <div class="card-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="card-body" id="availableCount">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Em Manutenção</div>
+                            <div class="card-icon warning">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                        </div>
+                        <div class="card-body" id="maintenanceCount">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Com Avarias</div>
+                            <div class="card-icon danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="card-body" id="damagedCount">0</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="equipmentStatusChart"></canvas>
+                </div>
+                
+                <h3 style="margin-bottom: 15px;">Lista de Equipamentos</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Número de Identificação</th>
+                                <th>Número de Série</th>
+                                <th>Status</th>
+                                <th>Localização</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipmentListTable">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 style="margin-bottom: 15px;">Últimos Registros</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Equipamento</th>
+                                <th>Nº Série</th>
+                                <th>Local</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentActivitiesTable">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Cadastro de Equipamentos -->
             <div id="register" class="tab-content">
-                <!-- Conteúdo do Cadastro -->
+                <h2 class="form-title">
+                    <i class="fas fa-cubes"></i> Cadastro de Equipamentos
+                </h2>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="equipmentSearch">Pesquisar</label>
+                        <input type="text" id="equipmentSearch" class="form-control" placeholder="Digite para pesquisar..." onkeyup="searchEquipment()">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterStatus">Status</label>
+                        <select id="filterStatus" class="form-control" onchange="filterEquipment()">
+                            <option value="all">Todos</option>
+                            <option value="Disponível">Disponível</option>
+                            <option value="Em uso">Em uso</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Com avarias">Com avarias</option>
+                            <option value="Desuso">Desuso</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-primary" onclick="showAddEquipmentModal()">
+                            <i class="fas fa-plus"></i> Novo Equipamento
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Registro</th>
+                                <th>Nº de Série</th>
+                                <th>Nº Registro</th>
+                                <th>Equipamento</th>
+                                <th>Local</th>
+                                <th>Quantidade</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipmentTable">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Reservas -->
-            <div id="reservations" class="tab-content">
-                <!-- Conteúdo das Reservas -->
+            <!-- Aba de Reserva (NOVA) -->
+            <div id="reserve" class="tab-content">
+                <h2 class="form-title">
+                    <i class="fas fa-calendar-check"></i> Reserva de Equipamentos
+                </h2>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button class="btn btn-secondary" onclick="prevMonth()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 id="currentMonthYear">Junho 2023</h3>
+                            <button class="btn btn-secondary" onclick="nextMonth()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendário será preenchido dinamicamente -->
+                    </div>
+                </div>
+                
+                <div class="reservation-fields">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="reserveProfessor">Professor</label>
+                            <select id="reserveProfessor" class="form-control">
+                                <option value="">Selecione o professor</option>
+                                <!-- Preenchido via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reserveSala">Sala</label>
+                            <select id="reserveSala" class="form-control">
+                                <option value="">Selecione a sala</option>
+                                <!-- Preenchido via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reserveQuantidade">Quantidade de Aparelhos</label>
+                            <input type="number" id="reserveQuantidade" class="form-control" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="reserveData">Data</label>
+                            <input type="date" id="reserveData" class="form-control">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="fazerReserva()">
+                            <i class="fas fa-save"></i> Fazer Reserva
+                        </button>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Reservas Ativas</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Professor</th>
+                                <th>Sala</th>
+                                <th>Equipamento</th>
+                                <th>Quantidade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reserveList">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Relatórios -->
-            <div id="reports" class="tab-content">
-                <!-- Conteúdo dos Relatórios -->
-            </div>
-
-            <!-- Manutenção -->
+            <!-- Aba de Manutenção (NOVA) -->
             <div id="maintenance" class="tab-content">
-                <!-- Conteúdo da Manutenção -->
+                <h2 class="form-title">
+                    <i class="fas fa-wrench"></i> Manutenção de Equipamentos
+                </h2>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="maintenanceSearch">Pesquisar</label>
+                        <input type="text" id="maintenanceSearch" class="form-control" placeholder="Digite para pesquisar...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="maintenanceStatus">Status</label>
+                        <select id="maintenanceStatus" class="form-control">
+                            <option value="all">Todos</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Em andamento">Em andamento</option>
+                            <option value="Concluído">Concluído</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="maintenanceEquipment">Aparelho</label>
+                        <select id="maintenanceEquipment" class="form-control" onchange="fillMaintenanceDetails()">
+                            <option value="">Selecione o aparelho</option>
+                            <option value="CHROMEBOOK">CHROMEBOOK</option>
+                            <option value="NOTEBOOK">NOTEBOOK</option>
+                            <option value="SMARTPHONE">SMARTPHONE</option>
+                            <option value="TABLET">TABLET</option>
+                            <option value="HEAD SET">HEAD SET</option>
+                            <option value="CAIXA DE SOM">CAIXA DE SOM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="maintenanceSerial">Número de Série</label>
+                        <input type="text" id="maintenanceSerial" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="maintenanceClassification">Classificação</label>
+                        <input type="text" id="maintenanceClassification" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="maintenanceStatusSelect">Status</label>
+                        <select id="maintenanceStatusSelect" class="form-control" onchange="showStatusModal(this.value)">
+                            <option value="">Selecione o status</option>
+                            <option value="disponivel">Disponível</option>
+                            <option value="requer_manutencao">Requer Manutenção</option>
+                            <option value="problema_software">Problema de Software</option>
+                            <option value="problema_hardware">Problema de Hardware</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="addMaintenance()">
+                        <i class="fas fa-plus"></i> Registrar Manutenção
+                    </button>
+                </div>
+                
+                <div class="maintenance-details" id="maintenanceDetails" style="display: none;">
+                    <h3>Detalhes da Manutenção</h3>
+                    <div id="maintenanceDetailsContent"></div>
+                </div>
+                
+                <div class="technical-support-form" id="technicalSupportForm" style="display: none;">
+                    <h3>Abrir Chamado de Assistência Técnica</h3>
+                    <div class="form-group">
+                        <label for="techSupportCompany">Empresa</label>
+                        <select id="techSupportCompany" class="form-control" onchange="showTechSupportFields()">
+                            <option value="">Selecione a empresa</option>
+                            <option value="Positivo">Positivo</option>
+                            <option value="Samsung">Samsung</option>
+                        </select>
+                    </div>
+                    <div id="techSupportFields"></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="openTechSupportTicket()">
+                            <i class="fas fa-ticket-alt"></i> Abrir Chamado
+                        </button>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Registros de Manutenção</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Equipamento</th>
+                                <th>Nº Série</th>
+                                <th>Classificação</th>
+                                <th>Problema</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="maintenanceTable">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Registro de Equipamentos -->
+            <!-- Reservas (antiga) -->
+            <div id="reservations" class="tab-content">
+                <h2 class="form-title">
+                    <i class="fas fa-calendar-alt"></i> Reservas de Equipamentos
+                </h2>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="reservationEquipmentFilter">Filtrar por Equipamento</label>
+                        <select id="reservationEquipmentFilter" class="form-control" onchange="updateReservations()">
+                            <option value="all">Todos os Equipamentos</option>
+                            <option value="Notebook do aluno">Notebook do aluno</option>
+                            <option value="Chromebooks">Chromebooks</option>
+                            <option value="Smartphone">Smartphone</option>
+                            <option value="Tablets">Tablets</option>
+                            <option value="Notebook Ultra">Notebook Ultra</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="reservationTeacherFilter">Filtrar por Professor</label>
+                        <select id="reservationTeacherFilter" class="form-control" onchange="updateReservations()">
+                            <option value="all">Todos os Professores</option>
+                            <!-- Professores serão preenchidos via JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button class="btn btn-secondary" onclick="prevMonth()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 id="currentMonthYear">Junho 2023</h3>
+                            <button class="btn btn-secondary" onclick="nextMonth()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary" onclick="showAddReservationModal()">
+                            <i class="fas fa-plus"></i> Nova Reserva
+                        </button>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendário será preenchido dinamicamente -->
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Reservas Ativas</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Professor</th>
+                                <th>Equipamento</th>
+                                <th>Hora Início</th>
+                                <th>Hora Fim</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservationsList">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Relatório de Equipamentos -->
+            <div id="reports" class="tab-content">
+                <h2 class="form-title">
+                    <i class="fas fa-file-alt"></i> Relatório de Equipamentos
+                </h2>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="reportEquipmentFilter">Filtrar por Equipamento</label>
+                        <select id="reportEquipmentFilter" class="form-control" onchange="generateReport()">
+                            <option value="all">Todos os Equipamentos</option>
+                            <option value="CHROMEBOOK">CHROMEBOOK</option>
+                            <option value="NOTEBOOK">NOTEBOOK</option>
+                            <option value="SMARTPHONE">SMARTPHONE</option>
+                            <option value="TABLET">TABLET</option>
+                            <option value="HEAD SET">HEAD SET</option>
+                            <option value="CAIXA DE SOM">CAIXA DE SOM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="reportContent" style="margin-top: 30px;">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Aparelho</th>
+                                    <th>Nº de Série</th>
+                                    <th>Status</th>
+                                    <th>Local</th>
+                                    <th>Data Registro</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportTable">
+                                <!-- Preenchido dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aba de Registro -->
             <div id="registration" class="tab-content">
                 <h2 class="form-title">
                     <i class="fas fa-clipboard-check"></i> Registro de Retirada e Entrega de Equipamentos
                 </h2>
                 
                 <div class="register-form">
-                    <div class="form-row">
+                    <div class="form-grid">
                         <div class="form-group">
                             <label for="teacherName">NOME DO PROFESSOR:</label>
                             <select id="teacherName" class="form-control" onchange="fillTeacherEmail()">
                                 <option value="">Selecione o professor</option>
-                                <option value="ADEMAR RIBEIRO DE SOUZA">ADEMAR RIBEIRO DE SOUZA</option>
-                                <option value="ALEX LUTH PEREIRA MARANHAO">ALEX LUTH PEREIRA MARANHAO</option>
-                                <option value="ALEXANDRE SILVA LIMA">ALEXANDRE SILVA LIMA</option>
-                                <option value="WILSON RODRIGUES MOTA">WILSON RODRIGUES MOTA</option>
+                                <!-- Professores serão preenchidos via JavaScript -->
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <label for="teacherEmail">E-MAIL:</label>
                             <input type="email" id="teacherEmail" class="form-control" readonly>
                             <div class="auto-fill-label">Preenchimento automático ao selecionar o professor</div>
                         </div>
                     </div>
-
+                    
                     <h3 style="margin: 20px 0 15px; color: var(--primary-color);">Equipamentos</h3>
                     
                     <div id="equipmentContainer">
                         <div class="equipment-row">
                             <div class="form-group">
-                                <label for="equipmentType1">APARELHO:</label>
-                                <select id="equipmentType1" class="form-control" onchange="updateIdentificationNumbers('1')">
-                                    <option value="">Selecione o aparelho</option>
-                                    <option value="NOTEBOOK">NOTEBOOK</option>
-                                    <option value="TABLET">TABLET</option>
-                                    <option value="SMARTPHONE">SMARTPHONE</option>
-                                    <option value="HEAD SET">HEAD SET</option>
-                                    <option value="CHROMEBOOK">CHROMEBOOK</option>
-                                    <option value="CAIXA DE SOM">CAIXA DE SOM</option>
-                                </select>
+                                <label for="equipmentType">APARELHO:</label>
+                                <div class="qr-section">
+                                    <select id="equipmentType" class="form-control" onchange="updateIdentificationNumbers()">
+                                        <option value="">Selecione o aparelho</option>
+                                        <option value="CHROMEBOOK">CHROMEBOOK</option>
+                                        <option value="NOTEBOOK">NOTEBOOK</option>
+                                        <option value="SMARTPHONE">SMARTPHONE</option>
+                                        <option value="TABLET">TABLET</option>
+                                        <option value="HEAD SET">HEAD SET</option>
+                                        <option value="CAIXA DE SOM">CAIXA DE SOM</option>
+                                    </select>
+                                    <button class="qr-button" onclick="readQRCode()">
+                                        <i class="fas fa-qrcode"></i> Ler QR Code
+                                    </button>
+                                </div>
                             </div>
+                            
                             <div class="form-group">
-                                <label for="identificationNumber1">N° DE IDENTIFICAÇÃO:</label>
-                                <select id="identificationNumber1" class="form-control" onchange="fillSerialNumber('1')">
+                                <label for="identificationNumber">N° DE IDENTIFICAÇÃO:</label>
+                                <select id="identificationNumber" class="form-control" onchange="fillSerialNumber()">
                                     <option value="">Selecione o aparelho primeiro</option>
                                 </select>
                             </div>
+                            
                             <div class="form-group">
-                                <label for="serialNumber1">N° DE SÉRIE:</label>
-                                <input type="text" id="serialNumber1" class="form-control" readonly>
+                                <label for="serialNumber">N° DE SÉRIE:</label>
+                                <input type="text" id="serialNumber" class="form-control" readonly>
                                 <div class="auto-fill-label">Preenchido automaticamente</div>
                             </div>
+                            
                             <div class="form-group">
-                                <label for="quantity1">QUANTIDADE:</label>
-                                <input type="number" id="quantity1" class="form-control" min="1" value="1">
+                                <label for="quantity">QUANTIDADE:</label>
+                                <input type="number" id="quantity" class="form-control" min="1" value="1" readonly>
                             </div>
+                            
                             <button class="remove-equipment-btn" onclick="removeEquipment(this)">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -817,8 +1614,8 @@
                     <button class="btn btn-primary" onclick="addEquipment()">
                         <i class="fas fa-plus"></i> Adicionar Equipamento
                     </button>
-
-                    <div class="form-row">
+                    
+                    <div class="form-grid" style="margin-top: 20px;">
                         <div class="form-group">
                             <label for="studentClass">TURMA:</label>
                             <select id="studentClass" class="form-control" required onchange="updateRoom()">
@@ -826,9 +1623,50 @@
                                 <option value="6° ANO A MANHA">6° ANO A MANHA</option>
                                 <option value="6° ANO B MANHA">6° ANO B MANHA</option>
                                 <option value="6° ANO C MANHA">6° ANO C MANHA</option>
+                                <option value="6° ANO D MANHA">6° ANO D MANHA</option>
+                                <option value="6° ANO E TARDE">6° ANO E TARDE</option>
+                                <option value="6° ANO F TARDE">6° ANO F TARDE</option>
+                                <option value="7° ANO A TARDE">7° ANO A TARDE</option>
+                                <option value="7° ANO B TARDE">7° ANO B TARDE</option>
+                                <option value="7° ANO C TARDE">7° ANO C TARDE</option>
+                                <option value="7° ANO D TARDE">7° ANO D TARDE</option>
+                                <option value="7° ANO E TARDE">7° ANO E TARDE</option>
+                                <option value="7° ANO F TARDE">7° ANO F TARDE</option>
+                                <option value="8° ANO A TARDE">8° ANO A TARDE</option>
+                                <option value="8° ANO B TARDE">8° ANO B TARDE</option>
+                                <option value="8° ANO C TARDE">8° ANO C TARDE</option>
+                                <option value="8° ANO D TARDE">8° ANO D TARDE</option>
+                                <option value="9° ANO A TARDE">9° ANO A TARDE</option>
+                                <option value="9° ANO B TARDE">9° ANO B TARDE</option>
+                                <option value="9° ANO C TARDE">9° ANO C TARDE</option>
+                                <option value="9° ANO D TARDE">9° ANO D TARDE</option>
+                                <option value="1ª SERIE A MANHA">1ª SERIE A MANHA</option>
+                                <option value="1ª SERIE B MANHA">1ª SERIE B MANHA</option>
+                                <option value="1ª SERIE C MANHA">1ª SERIE C MANHA</option>
+                                <option value="1ª SERIE D MANHA">1ª SERIE D MANHA</option>
+                                <option value="1ª SERIE E MANHA">1ª SERIE E MANHA</option>
+                                <option value="1ª SERIE F MANHA">1ª SERIE F MANHA</option>
+                                <option value="1ª SERIE G TARDE">1ª SERIE G TARDE</option>
+                                <option value="1ª SERIE H NOITE">1ª SERIE H NOITE</option>
+                                <option value="1ª SERIE I NOITE">1ª SERIE I NOITE</option>
+                                <option value="2ª SERIE A MANHA">2ª SERIE A MANHA</option>
+                                <option value="2ª SERIE B MANHA">2ª SERIE B MANHA</option>
+                                <option value="2ª SERIE C MANHA">2ª SERIE C MANHA</option>
+                                <option value="2ª SERIE D MANHA">2ª SERIE D MANHA</option>
+                                <option value="2ª SERIE E MANHA">2ª SERIE E MANHA</option>
+                                <option value="2ª SERIE F NOITE">2ª SERIE F NOITE</option>
+                                <option value="2ª SERIE G NOITE">2ª SERIE G NOITE</option>
+                                <option value="2ª SERIE H NOITE">2ª SERIE H NOITE</option>
+                                <option value="3ª SERIE A MANHA">3ª SERIE A MANHA</option>
+                                <option value="3ª SERie B MANHA">3ª SERIE B MANHA</option>
+                                <option value="3ª SERIE C MANHA">3ª SERIE C MANHA</option>
+                                <option value="3ª SERIE D NOITE">3ª SERIE D NOITE</option>
+                                <option value="3ª SERIE E NOITE">3ª SERIE E NOITE</option>
+                                <option value="3ª SERIE F NOITE">3ª SERIE F NOITE</option>
                                 <option value="4050 - ADMINISTRAÇÃO - 2ª SERIE A MANHA">4050 - ADMINISTRAÇÃO - 2ª SERIE A MANHA</option>
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <label for="room">SALA:</label>
                             <input type="text" id="room" class="form-control" readonly>
@@ -836,35 +1674,15 @@
                         </div>
                     </div>
                     
-                    <div class="form-row">
+                    <div class="form-grid">
                         <div class="form-group">
                             <label for="withdrawalDate">DATA DA RETIRADA:</label>
                             <input type="date" id="withdrawalDate" class="form-control" value="">
                         </div>
+                        
                         <div class="form-group">
                             <label for="returnDate">DATA DA ENTREGA:</label>
                             <input type="date" id="returnDate" class="form-control" value="">
-                        </div>
-                    </div>
-                    
-                    <div class="period-select">
-                        <div class="form-group">
-                            <label for="withdrawalPeriod">PERÍODO DA RETIRADA:</label>
-                            <select id="withdrawalPeriod" class="form-control" required>
-                                <option value="">Selecione</option>
-                                <option value="Manhã">Manhã</option>
-                                <option value="Tarde">Tarde</option>
-                                <option value="Noite">Noite</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="returnPeriod">PERÍODO DA ENTREGA:</label>
-                            <select id="returnPeriod" class="form-control" required>
-                                <option value="">Selecione</option>
-                                <option value="Manhã">Manhã</option>
-                                <option value="Tarde">Tarde</option>
-                                <option value="Noite">Noite</option>
-                            </select>
                         </div>
                     </div>
                     
@@ -873,46 +1691,44 @@
                             <label for="withdrawalTime">HORÁRIO DA RETIRADA:</label>
                             <input type="time" id="withdrawalTime" class="form-control" value="">
                         </div>
+                        
                         <div class="form-group">
                             <label for="returnTime">HORÁRIO DA ENTREGA:</label>
                             <input type="time" id="returnTime" class="form-control" value="">
                         </div>
                     </div>
                     
-                    <div class="dropdown-container">
-                        <div class="form-group">
-                            <label for="registrationCode">CÓDIGO DO REGISTRO *</label>
-                            <select id="registrationCode" class="form-control" required>
-                                <option value="">Selecione o código</option>
-                                <option value="PROATI - 001">PROATI - 001 (Raul)</option>
-                                <option value="PROATI - 002">PROATI - 002 (Juarez)</option>
-                                <option value="PROATI - 003">PROATI - 003 (Júlio)</option>
-                                <option value="CGP - 004">CGP - 004 (ERINEIDE)</option>
-                                <option value="CGP - 005">CGP - 005 (PATRÍCIA)</option>
-                            </select>
+                    <div class="registration-codes">
+                        <h4>CÓDIGOS DE REGISTRO:</h4>
+                        <div class="codes-list">
+                            <div class="code-item">PROATI - 001 (Raul)</div>
+                            <div class="code-item">PROATI - 002 (Juarez)</div>
+                            <div class="code-item">PROATI - 003 (Júlio)</div>
+                            <div class="code-item">CGP - 004 (ERINEIDE)</div>
+                            <div class="code-item">CGP - 005 (PATRÍCIA)</div>
                         </div>
-                        <div class="form-group">
-                            <label for="observationPeriod">PERÍODO:</label>
-                            <select id="observationPeriod" class="form-control" required>
-                                <option value="">Selecione</option>
-                                <option value="Manhã">Manhã</option>
-                                <option value="Tarde">Tarde</option>
-                                <option value="Noite">Noite</option>
-                            </select>
-                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registrationCode">CÓDIGO DO REGISTRO *</label>
+                        <select id="registrationCode" class="form-control" required onchange="fillRegistrantName()">
+                            <option value="">Selecione o código</option>
+                            <option value="PROATI - 001">PROATI - 001 (Raul)</option>
+                            <option value="PROATI - 002">PROATI - 002 (Juarez)</option>
+                            <option value="PROATI - 003">PROATI - 003 (Júlio)</option>
+                            <option value="CGP - 004">CGP - 004 (ERINEIDE)</option>
+                            <option value="CGP - 005">CGP - 005 (PATRÍCIA)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registrantName">Registrante:</label>
+                        <input type="text" id="registrantName" class="form-control" readonly>
                     </div>
                     
                     <div class="form-group">
                         <label for="observation">OBSERVAÇÃO:</label>
                         <textarea id="observation" class="form-control" rows="3" placeholder="Observações adicionais"></textarea>
-                        
-                        <div class="file-upload-container">
-                            <label class="file-upload-label">
-                                <i class="fas fa-paperclip"></i> Anexar arquivo
-                                <input type="file" id="fileUpload" class="file-input" onchange="handleFileUpload()">
-                            </label>
-                            <div id="fileList" class="file-list"></div>
-                        </div>
                     </div>
                     
                     <div class="btn-group">
@@ -922,8 +1738,8 @@
                         <button class="btn btn-secondary" onclick="clearForm()">
                             <i class="fas fa-eraser"></i> LIMPAR
                         </button>
-                        <button class="btn btn-primary" onclick="generateTermo()">
-                            <i class="fas fa-file-pdf"></i> GERAR TERMO
+                        <button class="btn btn-primary" onclick="generateTerm()">
+                            <i class="fas fa-file-pdf"></i> Gerar Termo
                         </button>
                     </div>
                 </div>
@@ -932,23 +1748,27 @@
                     <h3 class="termo-title">TERMO DE RESPONSABILIDADE PELO USO E DEVOLUÇÃO DE APARELHOS</h3>
                     <div class="termo-content">
                         <p>
-                            Eu, <span id="termoTeacherName">_____</span>, professor(a) da turma <span id="termoClass">_____</span>, declaro estar ciente e de acordo com as responsabilidades quanto ao uso dos aparelhos listados abaixo, os quais foram retirados em perfeitas condições de funcionamento.
+                            Eu, <span id="termoTeacherName">____________________________________________</span>, 
+                            professor(a) da turma <span id="termoClass">________</span>, 
+                            declaro estar ciente e de acordo com as responsabilidades quanto ao uso dos aparelhos listados abaixo, 
+                            os quais foram retirados em perfeitas condições de funcionamento.
                         </p>
+                        
                         <p>Comprometo-me a:</p>
                         <ul>
                             <li>Zelar pelo bom uso dos aparelhos sob minha posse e dos meus alunos durante o período de utilização;</li>
                             <li>Devolver todos os equipamentos nas mesmas condições em que foram entregues;</li>
                         </ul>
+                        
                         <p><strong>OBSERVAÇÃO:</strong> Comunicar imediatamente qualquer dano ou irregularidade ocorrida durante o uso.</p>
                         
                         <table class="termo-table">
                             <thead>
                                 <tr>
                                     <th>Aparelho</th>
-                                    <th>Nº Identificação</th>
-                                    <th>Nº Série</th>
+                                    <th>N° Identificação</th>
+                                    <th>N° Série</th>
                                     <th>Quantidade</th>
-                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody id="termoEquipmentTable">
@@ -958,44 +1778,34 @@
                         
                         <div class="termo-info">
                             <div class="termo-info-item">
-                                <p>Assinatura do(a) Professor(a):</p>
+                                <p>Assinatura do(a) Professor(a): ____________________________________________</p>
                             </div>
                             <div class="termo-info-item">
-                                <p>Turma: <span id="termoClass2">_____</span></p>
-                            </div>
-                        </div>
-                        
-                        <div class="termo-info">
-                            <div class="termo-info-item">
-                                <p>Data da Retirada: <span id="termoWithdrawalDate">_____</span></p>
-                            </div>
-                            <div class="termo-info-item">
-                                <p>Horário da Retirada: <span id="termoWithdrawalTime">_____</span></p>
+                                <p>Turma: <span id="termoClass2">_____________</span></p>
                             </div>
                         </div>
                         
                         <div class="termo-info">
                             <div class="termo-info-item">
-                                <p>Data da Devolução: <span id="termoReturnDate">_____</span></p>
+                                <p>Data da Retirada: <span id="termoWithdrawalDate">//________</span></p>
                             </div>
                             <div class="termo-info-item">
-                                <p>Horário da Devolução: <span id="termoReturnTime">_____</span></p>
+                                <p>Horário da Retirada: <span id="termoWithdrawalTime">____________</span></p>
                             </div>
                         </div>
                         
                         <div class="termo-info">
                             <div class="termo-info-item">
-                                <p>Período da Retirada: <span id="termoWithdrawalPeriod">_____</span></p>
+                                <p>Data da Devolução: <span id="termoReturnDate">//________</span></p>
                             </div>
                             <div class="termo-info-item">
-                                <p>Período da Devolução: <span id="termoReturnPeriod">_____</span></p>
+                                <p>Horário da Devolução: <span id="termoReturnTime">____________</span></p>
                             </div>
                         </div>
                         
                         <div class="termo-signature">
-                            <p>Registrado por: <span id="termoRegistrant">_____</span></p>
-                            <p>Código: <span id="termoRegistrationCode">_____</span></p>
-                            <p>Período: <span id="termoObservationPeriod">_____</span></p>
+                            <p>Registrado por: <span id="termoRegistrant">____________</span></p>
+                            <p>Código: <span id="termoRegistrationCode">____________</span></p>
                         </div>
                     </div>
                     
@@ -1006,347 +1816,1574 @@
                     </div>
                 </div>
                 
-                <div class="registration-table">
-                    <h3 class="form-title">
-                        <i class="fas fa-list"></i> Registros de Equipamentos
-                    </h3>
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Professor</th>
-                                    <th>Equipamento</th>
-                                    <th>ID</th>
-                                    <th>Série</th>
-                                    <th>Qtd</th>
-                                    <th>Retirada</th>
-                                    <th>Devolução</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="registrationTable">
-                                <!-- Registros serão inseridos aqui -->
-                            </tbody>
-                        </table>
+                <!-- Tabela de Registros -->
+                <h3 style="margin-top: 30px;">Registros de Equipamentos</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Professor</th>
+                                <th>Turma</th>
+                                <th>Sala</th>
+                                <th>Equipamentos</th>
+                                <th>Data/Hora Retirada</th>
+                                <th>Data/Hora Entrega</th>
+                                <th>Registrante</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrosTable">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Histórico -->
+            <div id="history" class="tab-content">
+                <h2 class="form-title">
+                    <i class="fas fa-history"></i> Histórico de Utilização
+                </h2>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="historyEquipmentFilter">Filtrar por Equipamento</label>
+                        <select id="historyEquipmentFilter" class="form-control" onchange="loadHistory()">
+                            <option value="all">Todos os Equipamentos</option>
+                            <option value="CHROMEBOOK">CHROMEBOOK</option>
+                            <option value="NOTEBOOK">NOTEBOOK</option>
+                            <option value="SMARTPHONE">SMARTPHONE</option>
+                            <option value="TABLET">TABLET</option>
+                            <option value="HEAD SET">HEAD SET</option>
+                            <option value="CAIXA DE SOM">CAIXA DE SOM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="historyTable" class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Aparelho</th>
+                                <th>Nº de Série</th>
+                                <th>Status</th>
+                                <th>Local</th>
+                                <th>Data Registro</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyList">
+                            <!-- Preenchido dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="historyDetails" class="history-details">
+                    <h3>Histórico de Agendamentos</h3>
+                    <div id="historyDetailsContent"></div>
+                </div>
+            </div>
+
+            <!-- Modal para adicionar reserva -->
+            <div id="addReservationModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Adicionar Nova Reserva</h3>
+                        <button class="modal-close" onclick="closeModal('addReservationModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="reservationTeacher">Professor</label>
+                                <select id="reservationTeacher" class="form-control">
+                                    <option value="">Selecione o professor</option>
+                                    <!-- Professores serão preenchidos via JavaScript -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationEquipment">Equipamento</label>
+                                <select id="reservationEquipment" class="form-control">
+                                    <option value="">Selecione o equipamento</option>
+                                    <option value="Notebook do aluno">Notebook do aluno</option>
+                                    <option value="Chromebooks">Chromebooks</option>
+                                    <option value="Smartphone">Smartphone</option>
+                                    <option value="Tablets">Tablets</option>
+                                    <option value="Notebook Ultra">Notebook Ultra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationDate">Data</label>
+                                <input type="date" id="reservationDate" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationStartTime">Hora Início</label>
+                                <input type="time" id="reservationStartTime" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="reservationEndTime">Hora Fim</label>
+                                <input type="time" id="reservationEndTime" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal('addReservationModal')">Cancelar</button>
+                        <button class="btn btn-success" onclick="saveReservation()">
+                            <i class="fas fa-save"></i> Salvar Reserva
+                        </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Modal para adicionar equipamento -->
+            <div id="addEquipmentModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Cadastrar Novo Equipamento</h3>
+                        <button class="modal-close" onclick="closeModal('addEquipmentModal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="equipmentForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="modal_registrationDate">Data do Registro</label>
+                                    <input type="date" id="modal_registrationDate" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_serialNumber">Nº de Série</label>
+                                    <input type="text" id="modal_serialNumber" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_registerNumber">Nº do Registro</label>
+                                    <input type="text" id="modal_registerNumber" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_equipmentType">Aparelho</label>
+                                    <select id="modal_equipmentType" class="form-control" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="Notebook do aluno">Notebook do aluno</option>
+                                        <option value="Chromebooks">Chromebooks</option>
+                                        <option value="Smartphone">Smartphone</option>
+                                        <option value="Tablets">Tablets</option>
+                                        <option value="Notebook Ultra">Notebook Ultra</option>
+                                        <option value="Datashow">Datashow</option>
+                                        <option value="Desktop Lenovo">Desktop Lenovo</option>
+                                        <option value="Head Set">Head Set</option>
+                                        <option value="Caixas de som">Caixas de som</option>
+                                        <option value="Microfones">Microfones</option>
+                                        <option value="Plataforma de Carregamento">Plataforma de Carregamento</option>
+                                        <option value="TVs">TVs</option>
+                                        <option value="Impressora">Impressora</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_equipmentLocation">Local</label>
+                                    <select id="modal_equipmentLocation" class="form-control" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="Sala dos professores">Sala dos professores</option>
+                                        <option value="Sala de informática">Sala de informática</option>
+                                        <option value="Depósito 1ª andar">Depósito 1ª andar</option>
+                                        <option value="Coordenação">Coordenação</option>
+                                        <option value="Vice Direção">Vice Direção</option>
+                                        <option value="Secretaria">Secretaria</option>
+                                        <option value="Direção">Direção</option>
+                                        <option value="Anfiteatro">Anfiteatro</option>
+                                        <option value="Sala de aula">Sala de aula</option>
+                                        <option value="Quadra">Quadra</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_equipmentQuantity">Quantidade</label>
+                                    <input type="number" id="modal_equipmentQuantity" class="form-control" min="1" value="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_equipmentCondition">Condição</label>
+                                    <select id="modal_equipmentCondition" class="form-control" required>
+                                        <option value="Disponível">Disponível</option>
+                                        <option value="Em uso">Em uso</option>
+                                        <option value="Manutenção">Manutenção</option>
+                                        <option value="Com avarias">Com avarias</option>
+                                        <option value="Desuso">Desuso</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modal_equipmentNotes">Observações</label>
+                                    <textarea id="modal_equipmentNotes" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeModal('addEquipmentModal')">Cancelar</button>
+                        <button class="btn btn-primary" onclick="saveEquipment()">Salvar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modais para status de manutenção -->
+            <div id="disponivelModal" class="sub-modal">
+                <div class="sub-modal-content">
+                    <button class="sub-modal-close" onclick="closeSubModal('disponivelModal')">&times;</button>
+                    <h3 class="sub-modal-title">Status: Disponíveis</h3>
+                    <div class="form-group">
+                        <label>O equipamento está disponível para uso?</label>
+                        <select id="disponivelOptions" class="form-control">
+                            <option value="disponivel_sim">Sim, disponível para uso</option>
+                            <option value="disponivel_nao">Não, requer verificação</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="saveDisponivelStatus()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="requerManutencaoModal" class="sub-modal">
+                <div class="sub-modal-content">
+                    <button class="sub-modal-close" onclick="closeSubModal('requerManutencaoModal')">&times;</button>
+                    <h3 class="sub-modal-title">Status: Requer Manutenção</h3>
+                    <div class="form-group">
+                        <label>Descreva o problema:</label>
+                        <textarea id="requerManutencaoDesc" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="saveRequerManutencaoStatus()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="problemaSoftwareModal" class="sub-modal">
+                <div class="sub-modal-content">
+                    <button class="sub-modal-close" onclick="closeSubModal('problemaSoftwareModal')">&times;</button>
+                    <h3 class="sub-modal-title">Problema de Software</h3>
+                    <div class="form-group">
+                        <label>Selecione o problema:</label>
+                        <select id="problemaSoftwareOptions" class="form-control">
+                            <option value="nao_liga">Não liga</option>
+                            <option value="bateria_nao_carrega">Bateria não segura carga</option>
+                            <option value="nao_carrega_pagina">Não carrega a página</option>
+                            <option value="sistema_travado">Sistema operacional travado</option>
+                            <option value="memoria_cheia">Memória cheia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Detalhes adicionais:</label>
+                        <textarea id="problemaSoftwareDetalhes" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="saveProblemaSoftwareStatus()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="problemaHardwareModal" class="sub-modal">
+                <div class="sub-modal-content">
+                    <button class="sub-modal-close" onclick="closeSubModal('problemaHardwareModal')">&times;</button>
+                    <h3 class="sub-modal-title">Problema de Hardware</h3>
+                    <div class="form-group">
+                        <label>Selecione o problema:</label>
+                        <select id="problemaHardwareOptions" class="form-control">
+                            <option value="teclado_danificado">Teclado danificado</option>
+                            <option value="tela_quebrada">Tela quebrada</option>
+                            <option value="tela_manchada">Tela manchada</option>
+                            <option value="outras_avarias">Outras avarias</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Detalhes adicionais:</label>
+                        <textarea id="problemaHardwareDetalhes" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="saveProblemaHardwareStatus()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overlay para modais -->
+            <div id="modalOverlay" class="modal-overlay" onclick="closeAllModals()"></div>
         </div>
     </div>
 
-    <!-- Modais -->
-    <div id="equipmentModal" class="modal"><!-- Conteúdo --></div>
-    <div id="editEquipmentModal" class="modal"><!-- Conteúdo --></div>
-    <div id="reservationModal" class="modal"><!-- Conteúdo --></div>
-    <div id="reservationDetailModal" class="modal"><!-- Conteúdo --></div>
-    <div id="maintenanceModal" class="modal"><!-- Conteúdo --></div>
-    <div id="maintenanceDetailModal" class="modal"><!-- Conteúdo --></div>
-
-   <script>
-       // Configuração CORRIGIDA do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBOoXyLQPfgzQM06LVy-TRSPdSM_8CjcE", // Removi o "j" extra
-            authDomain: "gerenciamentoaparelho.firebaseapp.com",
-            databaseURL: "https://gerenciamentoaparelho-default-rtdb.firebaseio.com", // Adicionei campo faltante
-            projectId: "gerenciamentoaparelho",
-            storageBucket: "gerenciamentoaparelho.appspot.com",
-            messagingSenderId: "751628186418",
-            appId: "1:751628186418:web:dd68af74d9e3723c179d2b",
-            measurementId: "G-K022ZQ4JBK" // Corrigi o valor
-        };
-
-        // Inicialização do Firebase corrigida
-        try {
-            if (firebase.apps.length === 0) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            
-            const database = firebase.database();
-            const auth = firebase.auth();
-            
-            console.log("Firebase inicializado com sucesso!");
-        } catch (error) {
-            console.error("Erro ao inicializar Firebase:", error);
-        }
-
-        // Função de login corrigida
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                alert("Por favor, preencha e-mail e senha");
-                return;
-            }
-
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    currentUser = userCredential.user;
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('mainSystem').style.display = 'block';
-                    
-                    // Usar displayName se disponível, caso contrário usar parte do email
-                    const displayName = currentUser.displayName || currentUser.email.split('@')[0];
-                    document.getElementById('currentUser').textContent = displayName;
-                    
-                    console.log("Usuário logado:", currentUser.email);
-                })
-                .catch((error) => {
-                    let errorMessage = "Erro ao fazer login: ";
-                    switch(error.code) {
-                        case "auth/invalid-email":
-                            errorMessage += "E-mail inválido";
-                            break;
-                        case "auth/user-disabled":
-                            errorMessage += "Usuário desativado";
-                            break;
-                        case "auth/user-not-found":
-                            errorMessage += "Usuário não encontrado";
-                            break;
-                        case "auth/wrong-password":
-                            errorMessage += "Senha incorreta";
-                            break;
-                        default:
-                            errorMessage += error.message;
-                    }
-                    alert(errorMessage);
-                    console.error("Detalhes do erro:", error);
-                });
-        }
-
-        // Função logout corrigida
-        function logout() {
-            firebase.auth().signOut().then(() => {
-                document.getElementById('mainSystem').style.display = 'none';
-                document.getElementById('loginScreen').style.display = 'block';
-                console.log("Usuário deslogado");
-            }).catch((error) => {
-                alert('Erro ao fazer logout: ' + error.message);
-            });
-        }
-
-        // Verificador de estado de autenticação
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainSystem').style.display = 'block';
-                
-                const displayName = user.displayName || user.email.split('@')[0];
-                document.getElementById('currentUser').textContent = displayName;
-            } else {
-                // Não faz nada, mantém na tela de login
-            }
-        });
-
-        // Dados de exemplo
-        const equipamentos = {
-            "NOTEBOOK": [
-                { id: "NB001", serial: "SN123456789", status: "Disponível" },
-                { id: "NB002", serial: "SN987654321", status: "Disponível" },
-                { id: "NB003", serial: "SN456789123", status: "Manutenção" }
-            ],
-            "TABLET": [
-                { id: "TAB001", serial: "SNTAB001", status: "Disponível" },
-                { id: "TAB002", serial: "SNTAB002", status: "Em uso" },
-                { id: "TAB003", serial: "SNTAB003", status: "Disponível" }
-            ],
-            "SMARTPHONE": [
-                { id: "SP001", serial: "SNSP001", status: "Disponível" },
-                { id: "SP002", serial: "SNSP002", status: "Com avarias" }
-            ],
-            "HEAD SET": [
-                { id: "HS001", serial: "SNHS001", status: "Disponível" },
-                { id: "HS002", serial: "SNHS002", status: "Disponível" }
-            ],
-            "CHROMEBOOK": [
-                { id: "CB001", serial: "SNCB001", status: "Disponível" },
-                { id: "CB002", serial: "SNCB002", status: "Em uso" }
-            ],
-            "CAIXA DE SOM": [
-                { id: "CS001", serial: "SNCS001", status: "Disponível" },
-                { id: "CS002", serial: "SNCS002", status: "Disponível" }
-            ]
-        };
-
-        const professores = {
-            "ADEMAR RIBEIRO DE SOUZA": "ademarribeirosouza@prof.educacao.sp.gov.br",
+    <script>
+        // Dados completos dos professores
+        const teacherEmails = {
             "ALEX LUTH PEREIRA MARANHAO": "luth@prof.educacao.sp.gov.br",
-            "ALEXANDRE SILVA LIMA": "alexandresilvalima@prof.educacao.sp.gov.br",
+            "ALEXSANDRA PAULA VARELLA DE SOUZA": "avarella@prof.educacao.sp.gov.br",
+            "ALISON VASCONCELOS BESERRA": "alisonv@prof.educacao.sp.gov.br",
+            "AMAURI TEODORO DE OLIVEIRA": "amaurit@prof.educacao.sp.gov.br",
+            "ANA PAULA DOS SANTOS": "paulasantosa@prof.educacao.sp.gov.br",
+            "ANDREIA DOS SANTOS FREITAS": "sanfreitas@prof.educacao.sp.gov.br",
+            "ANDREIA MADUREIRA REIS": "andreiamadureira@prof.educacao.sp.gov.br",
+            "ANTONIO CARLOS DE OLIVEIRA": "antoniocarloso@prof.educacao.sp.gov.br",
+            "ANTONIO RAMOS DE ARAUJO": "antonioramosaraujo@prof.educacao.sp.gov.br",
+            "ANTONIO WILTON WANDERLEY CABRAL": "antoniowilton@prof.educacao.sp.gov.br",
+            "AUGUSTO LINO PESSOA NETO": "augustolino@prof.educacao.sp.gov.br",
+            "AUREA MARIA DE JESUS MARQUES": "aureamaria@prof.educacao.sp.gov.br",
+            "CAROLINA PERNOMIAN PARUSSOLO": "carolinapernomian@prof.educacao.sp.gov.br",
+            "CASSIA OLIVEIRA ANTONIAZI": "cassiaosilva@prof.educacao.sp.gov.br",
+            "CLAUDINEIA DE AGUIAR LIMA": "aguiarl@prof.educacao.sp.gov.br",
+            "DANIEL DE FREITAS ALMEIDA": "danielalmeida@prof.educacao.sp.gov.br",
+            "DANIEL LOPES BARBOSA": "daniellopesbarbosa@prof.educacao.sp.gov.br",
+            "DANIELA FERREIRA LIMA": "danielafilma@prof.educacao.sp.gov.br",
+            "DANIELLE LUCIA BATISTA DE ALMEIDA": "danieleLucia@prof.educacao.sp.gov.br",
+            "EDIANE VIEIRA DA SILVERA": "ediane@prof.educacao.sp.gov.br",
+            "EDILEUSA NUNES PEREIRA": "edileusa@prof.educacao.sp.gov.br",
+            "EDUARDA HENRIQUE DA FONSECA": "henriquefonseca@prof.educacao.sp.gov.br",
+            "ELIANE SANTOS SILVA": "essantos@prof.educacao.sp.gov.br",
+            "ELIAS MONTEIRO DA SILVA": "elias1@prof.educacao.sp.gov.br",
+            "ELISABETE APARECIDA PIRES": "elisabetepires@prof.educacao.sp.gov.br",
+            "ELZA DE FARIA PEREIRA": "elzafariapereira@prof.educacao.sp.gov.br",
+            "EMERSON GABLER DE ALMEIDA": "egabler@prof.educacao.sp.gov.br",
+            "EUZELI ARAUJO DE OLIVEIRA": "euzeli@prof.educacao.sp.gov.br",
+            "FABIANO AUGUSTO PIEDADE": "fabianoaugusto@prof.educacao.sp.gov.br",
+            "FABIO CAMILO": "camilof@prof.educacao.sp.gov.br",
+            "FERNANDO JOSE DA SILVA FILHO": "fernandojs@prof.educacao.sp.gov.br",
+            "FLAVIA CRISTINA APARECIDA BICHLER": "flaviacri@prof.educacao.sp.gov.br",
+            "FLAVIO CARDOSO FLEURY": "flaviofleury@prof.educacao.sp.gov.br",
+            "FRANCISCA EDIVANIA DE MORAIS COSTA": "fedivania@prof.educacao.sp.gov.br",
+            "GABRIELA SERIGHELLI DE MELO": "gabrielaserighelli@prof.educacao.sp.gov.br",
+            "GELSON DE ALMEIDA BATISTA": "gelsonalmeida@prof.educacao.sp.gov.br",
+            "GENILTON DE OLIVEIRA SILVA": "genilton@prof.educacao.sp.gov.br",
+            "GIANI CRISTINA DO PRADO": "gianiprado@prof.educacao.sp.gov.br",
+            "INGRYD CAROLINA SUGUIMOTO VIEIRA": "ingryd@prof.educacao.sp.gov.br",
+            "IVANILDES DOS SANTOS OSHIKAWA": "oshikawa@prof.educacao.sp.gov.br",
+            "JANINA DOS PASSOS BRAGA DE ALMEIDA": "janinabraga@prof.educacao.sp.gov.br",
+            "JOSE APARECIDO DA SILVA": "joseaparecidosilva@prof.educacao.sp.gov.br",
+            "JUAREZ GOMES DE MAGALHAES FILHO": "juarezgomes@prof.educacao.sp.gov.br",
+            "JUREMA SOLEDADE FURINI SANTOS": "juremas@prof.educacao.sp.gov.br",
+            "KATIUSCIA ALVES BOMFIM": "katiusciabornfim@prof.educacao.sp.gov.br",
+            "LUANA CAROLINE ALVES LIMA": "luanalima01@prof.educacao.sp.gov.br",
+            "LUANA DE FREITAS SILVA": "luanafreitas@prof.educacao.sp.gov.br",
+            "LUCIANA NOVAIS CORREIA SANTOS": "novaiscorreia@prof.educacao.sp.gov.br",
+            "LUCIANO MOREIRA DE AZEVEDO": "lucianomoreira@prof.educacao.sp.gov.br",
+            "MARCIEL DA SILVA": "marcielsilva@prof.educacao.sp.gov.br",
+            "MARIA HELENA CUNHA MORO": "marcunha@prof.educacao.sp.gov.br",
+            "MARIA QUITÉRIA FERREIRA DOS SANTOS": "quiteriasantos@prof.educacao.sp.gov.br",
+            "MARINA DA CONCEICAO FRANCISCO SILVA": "marinafrancisco@prof.educacao.sp.gov.br",
+            "MAURICIO DE BARROS SANTOS": "mauriciobsantos@prof.educacao.sp.gov.br",
+            "MICHELE DE PINHO MORAES": "michelepinho@prof.educacao.sp.gov.br",
+            "MOISES ANTONIO DE BARROS": "moisesbarros@prof.educacao.sp.gov.br",
+            "PAULA ARMANI VILA": "paulaarmani@prof.educacao.sp.gov.br",
+            "PAULO ROBERTO DA SILVA ITO": "pauloito@prof.educacao.sp.gov.br",
+            "PEDRO ZANOTTI FILHO": "pedrozanotti@prof.educacao.sp.gov.br",
+            "RAUL PEREIRA VILERA JUNIOR": "vilera@prof.educacao.sp.gov.br",
+            "REGIANE CURTI DE SOUZA OLIVEIRA": "regianecurti@prof.educacao.sp.gov.br",
+            "REGINA DA SILVA CASTRO": "reginasilvacastro@prof.educacao.sp.gov.br",
+            "RICARDO AMERICO DA SILVA": "ricardoamerico@prof.educacao.sp.gov.br",
+            "ROBERTO SALGADO": "robertosalgado@prof.educacao.sp.gov.br",
+            "RODRIGO VIEIRA": "rodrigovieira1@prof.educacao.sp.gov.br",
+            "ROSANGELA CAFASSO MOREIRA": "cafasso@prof.educacao.sp.gov.br",
+            "ROSIMERY DE SOUZA PESSOA": "rosimerypessoa@prof.educacao.sp.gov.br",
+            "ROSMARA DA SILVA CARDOSO": "rosmaracardoso@prof.educacao.sp.gov.br",
+            "SANDRA CRISTINA MACEDO MORAES": "sandracristinamacedo@prof.educacao.sp.gov.br",
+            "SELMA GOMES DA SILVA": "selmagomess@prof.educacao.sp.gov.br",
+            "SERGIO AGRIPINO VILLA NOVA": "sergioagripino@prof.educacao.sp.gov.br",
+            "SOLANGE ALMEIDA DA SILVA": "almeidafazio@prof.educacao.sp.gov.br",
+            "SUZINEIDE SILVA DE FREITAS": "suzineidefreitas@prof.educacao.sp.gov.br",
+            "THIAGO FABIANO BRITO": "thiagofabiano@prof.educacao.sp.gov.br",
+            "TITTO AUGUSTO NASCIMENTO SILVA": "titto@prof.educacao.sp.gov.br",
+            "VANDERSON HYPPOLITO": "vhypolito@prof.educacao.sp.gov.br",
+            "VANESSA IVETE GOMES DOS SANTOS": "vanessaivete@prof.educacao.sp.gov.br",
+            "VANIA PENHA DE BARROS": "vaniapenha@prof.educacao.sp.gov.br",
+            "VIVIANE LEAL CAMERA DE MORAES": "camera@prof.educacao.sp.gov.br",
             "WILSON RODRIGUES MOTA": "wmota@prof.educacao.sp.gov.br"
         };
 
+        // Dados das salas por turma
         const salasPorTurmaPeriodo = {
             "6° ANO A MANHA": "Sala 1",
             "6° ANO B MANHA": "Sala 2",
             "6° ANO C MANHA": "Sala 3",
+            "6° ANO D MANHA": "Sala 4",
+            "6° ANO E TARDE": "Sala 5",
+            "6° ANO F TARDE": "Sala 6",
+            "7° ANO A TARDE": "Sala 7",
+            "7° ANO B TARDE": "Sala 8",
+            "7° ANO C TARDE": "Sala 9",
+            "7° ANO D TARDE": "Sala 10",
+            "7° ANO E TARDE": "Sala 11",
+            "7° ANO F TARDE": "Sala 12",
+            "8° ANO A TARDE": "Sala 13",
+            "8° ANO B TARDE": "Sala 14",
+            "8° ANO C TARDE": "Sala 15",
+            "8° ANO D TARDE": "Sala 16",
+            "9° ANO A TARDE": "Sala 17",
+            "9° ANO B TARDE": "Sala 18",
+            "9° ANO C TARDE": "Sala 19",
+            "9° ANO D TARDE": "Sala 20",
+            "1ª SERIE A MANHA": "Sala 21",
+            "1ª SERIE B MANHA": "Sala 22",
+            "1ª SERIE C MANHA": "Sala 23",
+            "1ª SERIE D MANHA": "Sala 24",
+            "1ª SERIE E MANHA": "Sala 25",
+            "1ª SERIE F MANHA": "Sala 26",
+            "1ª SERIE G TARDE": "Sala 27",
+            "1ª SERIE H NOITE": "Sala 28",
+            "1ª SERIE I NOITE": "Sala 29",
+            "2ª SERIE A MANHA": "Sala 30",
+            "2ª SERIE B MANHA": "Sala 31",
+            "2ª SERIE C MANHA": "Sala 32",
+            "2ª SERIE D MANHA": "Sala 33",
+            "2ª SERIE E MANHA": "Sala 34",
+            "2ª SERIE F NOITE": "Sala 35",
+            "2ª SERIE G NOITE": "Sala 36",
+            "2ª SERIE H NOITE": "Sala 37",
+            "3ª SERIE A MANHA": "Sala 38",
+            "3ª SERIE B MANHA": "Sala 39",
+            "3ª SERIE C MANHA": "Sala 40",
+            "3ª SERIE D NOITE": "Sala 41",
+            "3ª SERIE E NOITE": "Sala 42",
+            "3ª SERIE F NOITE": "Sala 43",
             "4050 - ADMINISTRAÇÃO - 2ª SERIE A MANHA": "Laboratório 1"
         };
+        
+        // Dados dos registrantes
+        const registrantes = {
+            "PROATI - 001": "Raul Pereira Vilera Junior",
+            "PROATI - 002": "Juarez Gomes de Magalhães Filho",
+            "PROATI - 003": "Júlio César Oliveira",
+            "CGP - 004": "Erineide Leite Aragão Nery",
+            "CGP - 005": "Patrícia Gomes Rocha Ribeiro"
+        };
+
+        // Dados de equipamentos
+        const EQUIPAMENTOS = {
+            CHROMEBOOK: [
+                { id: "CB-028", serial: "20232780003053", status: "Disponível", location: "Sala de informática", registrationDate: "2025-05-28" },
+                { id: "CB-019", serial: "20232780003049", status: "Disponível", location: "Sala de informática", registrationDate: "2025-05-28" },
+                { id: "CB-010", serial: "20232780003032", status: "Disponível", location: "Sala de informática", registrationDate: "2025-05-28" },
+                // ... (outros chromebooks)
+            ],
+            NOTEBOOK: [
+                { id: "NB010", serial: "4AB418Y1U", status: "Disponível", location: "Sala de informática", registrationDate: "2025-05-27" },
+                { id: "NB031", serial: "4AB419853", status: "Disponível", location: "Sala de informática", registrationDate: "2025-05-27" },
+                { id: "NB035", serial: "4AF26RTOE", status: "Disponível", location: "Sala de informática", registrationDate: "2025-05-27", notes: "TELA TRICADA NA PARTE SUPERIOR ESQUERDA" },
+                // ... (outros notebooks)
+            ],
+            SMARTPHONE: [
+                { id: "Nº24", serial: "cc690772-c690772-c1c2f-a7cf-80ea4c3098ba", status: "Disponível", location: "Sala de informática", registrationDate: "2025-06-06" },
+                { id: "Nº02", serial: "e16a021c-021c-9a0d-41a7-bea3-125d221b3a7c", status: "Disponível", location: "Sala de informática", registrationDate: "2025-06-06" },
+                // ... (outros smartphones)
+            ],
+            TABLET: [
+                { id: "TB-23", serial: "4AC14TO7V", status: "Disponível", location: "Sala de informática", registrationDate: "2025-06-03" },
+                { id: "TB-22", serial: "4AC20415M", status: "Disponível", location: "Sala de informática", registrationDate: "2025-06-03" },
+                // ... (outros tablets)
+            ]
+        };
+
+        const equipamentos = {
+            "CHROMEBOOK": EQUIPAMENTOS.CHROMEBOOK,
+            "NOTEBOOK": EQUIPAMENTOS.NOTEBOOK,
+            "SMARTPHONE": EQUIPAMENTOS.SMARTPHONE,
+            "TABLET": EQUIPAMENTOS.TABLET,
+            "HEAD SET": [],
+            "CAIXA DE SOM": []
+        };
+
+        // Dados de equipamentos para dashboard
+        const equipmentData = {
+            "Notebook do aluno": {
+                "Disponível": 60,
+                "Em uso": 15,
+                "Em Manutenção": 3,
+                "Com avarias": 2
+            },
+            "Chromebooks": {
+                "Disponível": 120,
+                "Em uso": 30,
+                "Em Manutenção": 5,
+                "Com avarias": 3
+            },
+            "Smartphone": {
+                "Disponível": 25,
+                "Em uso": 8,
+                "Em Manutenção": 1,
+                "Com avarias": 1
+            },
+            "Tablets": {
+                "Disponível": 22,
+                "Em uso": 5,
+                "Em Manutenção": 1,
+                "Com avarias": 0
+            }
+        };
+
+        // Dados de reservas (exemplo)
+        let reservations = [
+            { id: "RES001", teacher: "RAUL PEREIRA VILERA JUNIOR", equipment: "Chromebooks", date: "2023-06-15", startTime: "08:00", endTime: "10:00" },
+            { id: "RES002", teacher: "JUAREZ GOMES DE MAGALHAES FILHO", equipment: "Notebook do aluno", date: "2023-06-15", startTime: "10:00", endTime: "12:00" },
+            { id: "RES003", teacher: "JÚLIO CÉSAR OLIVEIRA", equipment: "Tablets", date: "2023-06-16", startTime: "14:00", endTime: "16:00" }
+        ];
+
+        // Dados para a nova aba de Reserva
+        let reserveList = [];
+        
+        // Dados para a nova aba de Manutenção
+        let maintenanceRecords = [];
+        
+        // Histórico de utilização
+        const equipmentHistory = {
+            "CB-001": [
+                { teacher: "RAUL PEREIRA VILERA JUNIOR", class: "8° ANO A TARDE", room: "Sala 13", date: "2023-06-10", startTime: "08:00", endTime: "10:00" },
+                { teacher: "JUAREZ GOMES DE MAGALHAES FILHO", class: "9° ANO B TARDE", room: "Sala 18", date: "2023-06-12", startTime: "10:00", endTime: "12:00" },
+                { teacher: "JÚLIO CÉSAR OLIVEIRA", class: "7° ANO C TARDE", room: "Sala 9", date: "2023-06-14", startTime: "14:00", endTime: "16:00" }
+            ],
+            "NB-002": [
+                { teacher: "VANIA PENHA DE BARROS", class: "1ª SERIE A MANHA", room: "Sala 21", date: "2023-06-11", startTime: "08:00", endTime: "10:00" },
+                { teacher: "FABIO CAMILO", class: "3ª SERIE C MANHA", room: "Sala 40", date: "2023-06-13", startTime: "10:00", endTime: "12:00" }
+            ]
+        };
+
+        // Registros de equipamentos
+        let registros = [];
+        
+        // Variáveis para controle de manutenção
+        let currentMaintenanceDetails = null;
+
+        // Variáveis globais
+        let currentUser = null;
+        let equipmentChart = null;
+        let reportChart = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
 
         // Inicialização do sistema
         document.addEventListener('DOMContentLoaded', function() {
+            // Configura data atual nos formulários
             const today = new Date().toISOString().split('T')[0];
+            document.getElementById('modal_registrationDate').value = today;
             document.getElementById('withdrawalDate').value = today;
             document.getElementById('returnDate').value = today;
+            document.getElementById('reservationDate').value = today;
+            document.getElementById('reserveData').value = today;
             
+            // Configura horário atual
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('withdrawalTime').value = `${hours}:${minutes}`;
-            document.getElementById('returnTime').value = `${hours}:${minutes}`;
+            const time = `${hours}:${minutes}`;
+            document.getElementById('withdrawalTime').value = time;
+            document.getElementById('reservationStartTime').value = time;
             
-            loadRegistrationTable();
+            // Calcula hora de término (1 hora depois)
+            const endHours = (now.getHours() + 1) % 24;
+            const endTime = `${endHours.toString().padStart(2, '0')}:${minutes}`;
+            document.getElementById('returnTime').value = time;
+            document.getElementById('reservationEndTime').value = endTime;
+            
+            // Preenche dropdown de professores
+            const teacherSelect = document.getElementById('teacherName');
+            const reservationTeacherSelect = document.getElementById('reservationTeacher');
+            const filterTeacherSelect = document.getElementById('reservationTeacherFilter');
+            const reserveProfessorSelect = document.getElementById('reserveProfessor');
+            
+            for (const nome in teacherEmails) {
+                const option = document.createElement('option');
+                option.value = nome;
+                option.textContent = nome;
+                teacherSelect.appendChild(option);
+                
+                const option2 = option.cloneNode(true);
+                reservationTeacherSelect.appendChild(option2);
+                
+                const option3 = option.cloneNode(true);
+                filterTeacherSelect.appendChild(option3);
+                
+                const option4 = option.cloneNode(true);
+                reserveProfessorSelect.appendChild(option4);
+            }
+            
+            // Preenche dropdown de salas
+            const reserveSalaSelect = document.getElementById('reserveSala');
+            for (const turma in salasPorTurmaPeriodo) {
+                const option = document.createElement('option');
+                option.value = salasPorTurmaPeriodo[turma];
+                option.textContent = salasPorTurmaPeriodo[turma];
+                reserveSalaSelect.appendChild(option);
+            }
+            
+            // Inicializa o calendário
+            renderCalendar(currentMonth, currentYear);
+            
+            // Carrega dados iniciais
+            updateDashboard();
+            generateReport();
+            loadReservationsList();
+            loadHistory();
+            updateRegistrosTable();
+            loadReserveList();
+            loadMaintenanceTable();
         });
 
-        // Função de login corrigida
+        // Funções de autenticação
         function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    currentUser = userCredential.user;
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('mainSystem').style.display = 'block';
-                    document.getElementById('currentUser').textContent = currentUser.email.split('@')[0];
-                })
-                .catch((error) => {
-                    alert('Erro ao fazer login: ' + error.message);
-                    console.error('Erro de login:', error);
-                });
-        }
-       
-        function logout() {
-            auth.signOut().then(() => {
-                document.getElementById('mainSystem').style.display = 'none';
-                document.getElementById('loginScreen').style.display = 'block';
-            });
+            // Simulação de login
+            if (email === 'admin@escola.gov.br' && password === 'admin123') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainSystem').style.display = 'block';
+                document.getElementById('currentUser').textContent = 'Administrador';
+                
+                // Atualiza dashboard
+                updateDashboard();
+            } else {
+                alert('Credenciais inválidas. Use admin@escola.gov.br e admin123');
+            }
         }
 
-        // Navegação
+        function logout() {
+            document.getElementById('mainSystem').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('loginEmail').value = 'admin@escola.gov.br';
+            document.getElementById('loginPassword').value = 'admin123';
+        }
+
+        // Funções para navegação entre abas
         function openTab(tabId) {
+            // Esconde todos os conteúdos das abas
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             
+            // Remove a classe active de todas as abas de navegação
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
+            // Mostra a aba selecionada e marca como ativa
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
-        }
-
-        // Funções de Registro
-        function fillTeacherEmail() {
-            const teacherName = document.getElementById('teacherName').value;
-            document.getElementById('teacherEmail').value = professores[teacherName] || '';
-        }
-
-        function updateIdentificationNumbers(id) {
-            const equipmentType = document.getElementById(`equipmentType${id}`).value;
-            const identificationSelect = document.getElementById(`identificationNumber${id}`);
             
-            identificationSelect.innerHTML = '<option value="">Selecione o aparelho primeiro</option>';
-            
-            if (equipamentos[equipmentType]) {
-                equipamentos[equipmentType].forEach(eq => {
-                    const option = document.createElement('option');
-                    option.value = eq.id;
-                    option.textContent = eq.id;
-                    option.dataset.serial = eq.serial;
-                    identificationSelect.appendChild(option);
-                });
+            // Atualiza o conteúdo da aba se necessário
+            if (tabId === 'dashboard') {
+                updateDashboard();
+            } else if (tabId === 'reservations') {
+                updateReservations();
+            } else if (tabId === 'reports') {
+                generateReport();
+            } else if (tabId === 'history') {
+                loadHistory();
+            } else if (tabId === 'registration') {
+                updateRegistrosTable();
+            } else if (tabId === 'reserve') {
+                loadReserveList();
+            } else if (tabId === 'maintenance') {
+                loadMaintenanceTable();
             }
         }
 
-        function fillSerialNumber(id) {
-            const identificationSelect = document.getElementById(`identificationNumber${id}`);
-            const selectedOption = identificationSelect.options[identificationSelect.selectedIndex];
-            document.getElementById(`serialNumber${id}`).value = selectedOption?.dataset.serial || '';
+        // Funções para dashboard
+        function updateDashboard() {
+            const equipmentFilter = document.getElementById('dashboardEquipmentFilter').value;
+            let inUse = 0, available = 0, maintenance = 0, damaged = 0;
+            
+            if (equipmentFilter === 'all') {
+                // Contagem de todos os equipamentos
+                Object.values(equipmentData).forEach(type => {
+                    inUse += type['Em uso'] || 0;
+                    available += type['Disponível'] || 0;
+                    maintenance += type['Em Manutenção'] || 0;
+                    damaged += type['Com avarias'] || 0;
+                });
+            } else if (equipmentData[equipmentFilter]) {
+                // Contagem para o tipo específico
+                const type = equipmentData[equipmentFilter];
+                inUse = type['Em uso'] || 0;
+                available = type['Disponível'] || 0;
+                maintenance = type['Em Manutenção'] || 0;
+                damaged = type['Com avarias'] || 0;
+            }
+            
+            // Atualizar os cards
+            document.getElementById('inUseCount').textContent = inUse;
+            document.getElementById('availableCount').textContent = available;
+            document.getElementById('maintenanceCount').textContent = maintenance;
+            document.getElementById('damagedCount').textContent = damaged;
+            
+            // Atualizar o gráfico
+            updateChart(inUse, available, maintenance, damaged);
+            
+            // Atualizar a lista de equipamentos
+            updateEquipmentList(equipmentFilter);
         }
 
+        function updateEquipmentList(equipmentType) {
+            const tableBody = document.getElementById('equipmentListTable');
+            tableBody.innerHTML = '';
+            
+            if (equipmentType === 'all') {
+                // Mostrar todos os equipamentos
+                for (const [tipo, lista] of Object.entries(equipamentos)) {
+                    lista.forEach(eq => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${eq.id}</td>
+                            <td>${eq.serial}</td>
+                            <td>
+                                <span class="badge ${getStatusBadgeClass(eq.status)}">
+                                    ${eq.status}
+                                </span>
+                            </td>
+                            <td>${eq.location}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+            } else {
+                // Mostrar apenas equipamentos do tipo selecionado
+                const tipoEquipamento = equipmentType === 'Chromebooks' ? 'CHROMEBOOK' : 
+                                      equipmentType === 'Notebook do aluno' ? 'NOTEBOOK' :
+                                      equipmentType === 'Smartphone' ? 'SMARTPHONE' :
+                                      equipmentType === 'Tablets' ? 'TABLET' : '';
+                
+                if (equipamentos[tipoEquipamento]) {
+                    equipamentos[tipoEquipamento].forEach(eq => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${eq.id}</td>
+                            <td>${eq.serial}</td>
+                            <td>
+                                <span class="badge ${getStatusBadgeClass(eq.status)}">
+                                    ${eq.status}
+                                </span>
+                            </td>
+                            <td>${eq.location}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+            }
+        }
+
+        function updateChart(inUse, available, maintenance, damaged) {
+            const ctx = document.getElementById('equipmentStatusChart').getContext('2d');
+            
+            // Destrói o gráfico anterior se existir
+            if (window.equipmentChart) {
+                window.equipmentChart.destroy();
+            }
+            
+            window.equipmentChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Em Uso', 'Disponíveis', 'Em Manutenção', 'Com Avarias'],
+                    datasets: [{
+                        data: [inUse, available, maintenance, damaged],
+                        backgroundColor: [
+                            '#3498db', // Em uso (azul)
+                            '#27ae60', // Disponível (verde)
+                            '#f39c12', // Manutenção (amarelo)
+                            '#e74c3c'  // Com avarias (vermelho)
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Status dos Equipamentos',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Funções para a nova aba de Reserva
+        function fazerReserva() {
+            const professor = document.getElementById('reserveProfessor').value;
+            const sala = document.getElementById('reserveSala').value;
+            const quantidade = document.getElementById('reserveQuantidade').value;
+            const data = document.getElementById('reserveData').value;
+            
+            if (!professor || !sala || !quantidade || !data) {
+                alert("Por favor, preencha todos os campos");
+                return;
+            }
+            
+            // Adicionar a reserva
+            const newReserve = {
+                id: "RSV" + Date.now().toString().slice(-4),
+                professor,
+                sala,
+                quantidade,
+                data
+            };
+            
+            reserveList.push(newReserve);
+            alert(`Reserva realizada com sucesso para ${professor} em ${data}`);
+            
+            // Atualizar a lista
+            loadReserveList();
+            
+            // Limpar o formulário
+            document.getElementById('reserveProfessor').value = '';
+            document.getElementById('reserveSala').value = '';
+            document.getElementById('reserveQuantidade').value = '1';
+            document.getElementById('reserveData').value = new Date().toISOString().split('T')[0];
+        }
+        
+        function loadReserveList() {
+            const tableBody = document.getElementById('reserveList');
+            tableBody.innerHTML = '';
+            
+            reserveList.forEach(reserve => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(reserve.data)}</td>
+                    <td>${reserve.professor}</td>
+                    <td>${reserve.sala}</td>
+                    <td>Equipamentos diversos</td>
+                    <td>${reserve.quantidade}</td>
+                    <td class="action-buttons">
+                        <button class="action-btn delete-btn" onclick="deleteReserve('${reserve.id}')">
+                            <i class="fas fa-trash"></i> Excluir
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function deleteReserve(id) {
+            if (!confirm('Tem certeza que deseja excluir esta reserva?')) return;
+            
+            reserveList = reserveList.filter(r => r.id !== id);
+            loadReserveList();
+            alert('Reserva excluída com sucesso!');
+        }
+
+        // Funções para a nova aba de Manutenção
+        function fillMaintenanceDetails() {
+            const equipmentSelect = document.getElementById('maintenanceEquipment');
+            const serialInput = document.getElementById('maintenanceSerial');
+            const classificationInput = document.getElementById('maintenanceClassification');
+            
+            const selectedEquipment = equipmentSelect.value;
+            
+            if (selectedEquipment && equipamentos[selectedEquipment] && equipamentos[selectedEquipment].length > 0) {
+                // Preencher com o primeiro equipamento da lista (em um sistema real, teria mais lógica)
+                const equipment = equipamentos[selectedEquipment][0];
+                serialInput.value = equipment.serial;
+                classificationInput.value = equipment.id;
+            } else {
+                serialInput.value = '';
+                classificationInput.value = '';
+            }
+        }
+        
+        function showStatusModal(status) {
+            document.getElementById('modalOverlay').style.display = 'block';
+            
+            if (status === 'disponivel') {
+                document.getElementById('disponivelModal').style.display = 'block';
+            } else if (status === 'requer_manutencao') {
+                document.getElementById('requerManutencaoModal').style.display = 'block';
+            } else if (status === 'problema_software') {
+                document.getElementById('problemaSoftwareModal').style.display = 'block';
+            } else if (status === 'problema_hardware') {
+                document.getElementById('problemaHardwareModal').style.display = 'block';
+            }
+        }
+        
+        function closeSubModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+        
+        function closeAllModals() {
+            document.querySelectorAll('.sub-modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+        
+        function saveDisponivelStatus() {
+            const option = document.getElementById('disponivelOptions').value;
+            currentMaintenanceDetails = {
+                status: 'Disponível',
+                details: option === 'disponivel_sim' ? 'Equipamento disponível para uso' : 'Equipamento requer verificação'
+            };
+            closeAllModals();
+            alert('Status de disponibilidade registrado');
+        }
+        
+        function saveRequerManutencaoStatus() {
+            const desc = document.getElementById('requerManutencaoDesc').value;
+            currentMaintenanceDetails = {
+                status: 'Requer Manutenção',
+                details: desc
+            };
+            closeAllModals();
+            alert('Status de manutenção registrado');
+        }
+        
+        function saveProblemaSoftwareStatus() {
+            const problema = document.getElementById('problemaSoftwareOptions').value;
+            const detalhes = document.getElementById('problemaSoftwareDetalhes').value;
+            
+            const problemasMap = {
+                'nao_liga': 'Não liga',
+                'bateria_nao_carrega': 'Bateria não segura carga',
+                'nao_carrega_pagina': 'Não carrega a página',
+                'sistema_travado': 'Sistema operacional travado',
+                'memoria_cheia': 'Memória cheia'
+            };
+            
+            currentMaintenanceDetails = {
+                status: 'Problema de Software',
+                details: `${problemasMap[problema]}. ${detalhes}`
+            };
+            closeAllModals();
+            alert('Problema de software registrado');
+        }
+        
+        function saveProblemaHardwareStatus() {
+            const problema = document.getElementById('problemaHardwareOptions').value;
+            const detalhes = document.getElementById('problemaHardwareDetalhes').value;
+            
+            const problemasMap = {
+                'teclado_danificado': 'Teclado danificado',
+                'tela_quebrada': 'Tela quebrada',
+                'tela_manchada': 'Tela manchada',
+                'outras_avarias': 'Outras avarias'
+            };
+            
+            currentMaintenanceDetails = {
+                status: 'Problema de Hardware',
+                details: `${problemasMap[problema]}. ${detalhes}`
+            };
+            closeAllModals();
+            alert('Problema de hardware registrado');
+        }
+        
+        function addMaintenance() {
+            const equipment = document.getElementById('maintenanceEquipment').value;
+            const serial = document.getElementById('maintenanceSerial').value;
+            const classification = document.getElementById('maintenanceClassification').value;
+            
+            if (!equipment || !serial || !classification) {
+                alert("Por favor, selecione um equipamento primeiro");
+                return;
+            }
+            
+            if (!currentMaintenanceDetails) {
+                alert("Por favor, selecione um status para a manutenção");
+                return;
+            }
+            
+            // Adicionar registro de manutenção
+            const newMaintenance = {
+                id: "MNT" + Date.now().toString().slice(-4),
+                equipment,
+                serial,
+                classification,
+                problem: currentMaintenanceDetails.details,
+                status: currentMaintenanceDetails.status,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            maintenanceRecords.push(newMaintenance);
+            alert('Registro de manutenção adicionado com sucesso');
+            
+            // Atualizar a tabela
+            loadMaintenanceTable();
+            
+            // Limpar o formulário
+            document.getElementById('maintenanceEquipment').value = '';
+            document.getElementById('maintenanceSerial').value = '';
+            document.getElementById('maintenanceClassification').value = '';
+            document.getElementById('maintenanceStatusSelect').value = '';
+            currentMaintenanceDetails = null;
+            
+            // Mostrar detalhes da manutenção
+            document.getElementById('maintenanceDetails').style.display = 'block';
+            document.getElementById('maintenanceDetailsContent').innerHTML = `
+                <p><strong>Equipamento:</strong> ${newMaintenance.equipment}</p>
+                <p><strong>Número de Série:</strong> ${newMaintenance.serial}</p>
+                <p><strong>Classificação:</strong> ${newMaintenance.classification}</p>
+                <p><strong>Problema:</strong> ${newMaintenance.problem}</p>
+                <p><strong>Status:</strong> ${newMaintenance.status}</p>
+                <p><strong>Data:</strong> ${formatDate(newMaintenance.date)}</p>
+            `;
+            
+            // Mostrar formulário de assistência técnica se for problema de hardware
+            if (newMaintenance.status === 'Problema de Hardware') {
+                document.getElementById('technicalSupportForm').style.display = 'block';
+            }
+        }
+        
+        function showTechSupportFields() {
+            const company = document.getElementById('techSupportCompany').value;
+            const fieldsContainer = document.getElementById('techSupportFields');
+            fieldsContainer.innerHTML = '';
+            
+            if (company === 'Positivo') {
+                fieldsContainer.innerHTML = `
+                    <div class="form-group">
+                        <label for="positivoModel">Modelo do Equipamento</label>
+                        <input type="text" id="positivoModel" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="positivoNumeroSerie">Número de Série</label>
+                        <input type="text" id="positivoNumeroSerie" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="positivoDataCompra">Data de Compra</label>
+                        <input type="date" id="positivoDataCompra" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="positivoProblema">Descrição do Problema</label>
+                        <textarea id="positivoProblema" class="form-control" rows="3"></textarea>
+                    </div>
+                `;
+            } else if (company === 'Samsung') {
+                fieldsContainer.innerHTML = `
+                    <div class="form-group">
+                        <label for="samsungModel">Modelo do Equipamento</label>
+                        <input type="text" id="samsungModel" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="samsungNumeroSerie">Número de Série</label>
+                        <input type="text" id="samsungNumeroSerie" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="samsungIMEI">IMEI (se aplicável)</label>
+                        <input type="text" id="samsungIMEI" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="samsungDataCompra">Data de Compra</label>
+                        <input type="date" id="samsungDataCompra" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="samsungProblema">Descrição do Problema</label>
+                        <textarea id="samsungProblema" class="form-control" rows="3"></textarea>
+                    </div>
+                `;
+            }
+        }
+        
+        function openTechSupportTicket() {
+            const company = document.getElementById('techSupportCompany').value;
+            
+            if (!company) {
+                alert("Por favor, selecione uma empresa primeiro");
+                return;
+            }
+            
+            let isValid = true;
+            let ticketData = {};
+            
+            if (company === 'Positivo') {
+                const model = document.getElementById('positivoModel').value;
+                const serial = document.getElementById('positivoNumeroSerie').value;
+                const purchaseDate = document.getElementById('positivoDataCompra').value;
+                const problem = document.getElementById('positivoProblema').value;
+                
+                if (!model || !serial || !purchaseDate || !problem) {
+                    isValid = false;
+                } else {
+                    ticketData = { company, model, serial, purchaseDate, problem };
+                }
+            } else if (company === 'Samsung') {
+                const model = document.getElementById('samsungModel').value;
+                const serial = document.getElementById('samsungNumeroSerie').value;
+                const imei = document.getElementById('samsungIMEI').value;
+                const purchaseDate = document.getElementById('samsungDataCompra').value;
+                const problem = document.getElementById('samsungProblema').value;
+                
+                if (!model || !serial || !purchaseDate || !problem) {
+                    isValid = false;
+                } else {
+                    ticketData = { company, model, serial, imei, purchaseDate, problem };
+                }
+            }
+            
+            if (!isValid) {
+                alert("Por favor, preencha todos os campos obrigatórios");
+                return;
+            }
+            
+            // Em um sistema real, aqui enviaria os dados para a API da empresa
+            alert(`Chamado aberto com sucesso para ${company}. Número do protocolo: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`);
+            
+            // Limpar formulário
+            document.getElementById('techSupportCompany').value = '';
+            document.getElementById('techSupportFields').innerHTML = '';
+            document.getElementById('technicalSupportForm').style.display = 'none';
+        }
+        
+        function loadMaintenanceTable() {
+            const tableBody = document.getElementById('maintenanceTable');
+            tableBody.innerHTML = '';
+            
+            maintenanceRecords.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(record.date)}</td>
+                    <td>${record.equipment}</td>
+                    <td>${record.serial}</td>
+                    <td>${record.classification}</td>
+                    <td>${record.problem}</td>
+                    <td>
+                        <span class="badge ${getStatusBadgeClass(record.status)}">
+                            ${record.status}
+                        </span>
+                    </td>
+                    <td class="action-buttons">
+                        <button class="action-btn delete-btn" onclick="deleteMaintenanceRecord('${record.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function deleteMaintenanceRecord(id) {
+            if (!confirm('Tem certeza que deseja excluir este registro de manutenção?')) return;
+            
+            maintenanceRecords = maintenanceRecords.filter(r => r.id !== id);
+            loadMaintenanceTable();
+            alert('Registro de manutenção excluído com sucesso!');
+        }
+
+        // Funções para reservas (antiga)
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        }
+        
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        }
+        
+        function renderCalendar(month, year) {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+            
+            // Atualizar o cabeçalho com mês/ano
+            const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            document.getElementById('currentMonthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            // Criar cabeçalhos dos dias da semana
+            const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+            daysOfWeek.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // Obter primeiro dia do mês
+            const firstDay = new Date(year, month, 1);
+            // Obter último dia do mês
+            const lastDay = new Date(year, month + 1, 0);
+            // Dias no mês
+            const daysInMonth = lastDay.getDate();
+            // Dia da semana do primeiro dia (0 = Domingo, 1 = Segunda, etc.)
+            const firstDayOfWeek = firstDay.getDay();
+            
+            // Preencher espaços vazios antes do primeiro dia
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Preencher os dias do mês
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                const calendarDay = document.createElement('div');
+                calendarDay.className = 'calendar-day';
+                
+                // Verificar se é hoje
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    calendarDay.classList.add('today');
+                }
+                
+                // Verificar reservas para este dia
+                const dayReservations = reservations.filter(r => r.date === dateStr);
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'calendar-day-number';
+                dayNumber.textContent = day;
+                calendarDay.appendChild(dayNumber);
+                
+                // Adicionar reservas
+                dayReservations.forEach(reservation => {
+                    const resElement = document.createElement('div');
+                    resElement.className = 'reservation-item';
+                    resElement.innerHTML = `
+                        <div><strong>${reservation.teacher}</strong></div>
+                        <div>${reservation.equipment}</div>
+                        <div>${reservation.startTime} - ${reservation.endTime}</div>
+                    `;
+                    resElement.setAttribute('data-id', reservation.id);
+                    resElement.addEventListener('click', () => showReservationDetails(reservation.id));
+                    calendarDay.appendChild(resElement);
+                });
+                
+                // Destacar dias com reservas
+                if (dayReservations.length > 0) {
+                    calendarDay.classList.add('reserved');
+                }
+                
+                calendarGrid.appendChild(calendarDay);
+            }
+        }
+        
+        function updateReservations() {
+            const equipmentFilter = document.getElementById('reservationEquipmentFilter').value;
+            const teacherFilter = document.getElementById('reservationTeacherFilter').value;
+            
+            // Aqui seria a implementação real para filtrar reservas
+            // Por enquanto, apenas recarregamos o calendário
+            renderCalendar(currentMonth, currentYear);
+            loadReservationsList();
+        }
+        
+        function showAddReservationModal() {
+            openModal('addReservationModal');
+        }
+        
+        function saveReservation() {
+            const teacher = document.getElementById('reservationTeacher').value;
+            const equipment = document.getElementById('reservationEquipment').value;
+            const date = document.getElementById('reservationDate').value;
+            const startTime = document.getElementById('reservationStartTime').value;
+            const endTime = document.getElementById('reservationEndTime').value;
+            
+            if (!teacher || !equipment || !date || !startTime || !endTime) {
+                alert("Por favor, preencha todos os campos");
+                return;
+            }
+            
+            // Adicionar a reserva (em um sistema real, seria salva no banco de dados)
+            const newReservation = {
+                id: "RES" + Date.now().toString().slice(-4),
+                teacher,
+                equipment,
+                date,
+                startTime,
+                endTime
+            };
+            
+            reservations.push(newReservation);
+            alert(`Reserva adicionada com sucesso para ${teacher} em ${date} das ${startTime} às ${endTime}`);
+            
+            // Atualizar o calendário e a lista
+            renderCalendar(currentMonth, currentYear);
+            loadReservationsList();
+            
+            closeModal('addReservationModal');
+        }
+        
+        function loadReservationsList() {
+            const tableBody = document.getElementById('reservationsList');
+            tableBody.innerHTML = '';
+            
+            const equipmentFilter = document.getElementById('reservationEquipmentFilter').value;
+            const teacherFilter = document.getElementById('reservationTeacherFilter').value;
+            
+            // Filtrar reservas
+            const filteredReservations = reservations.filter(res => {
+                return (equipmentFilter === 'all' || res.equipment === equipmentFilter) &&
+                       (teacherFilter === 'all' || res.teacher === teacherFilter);
+            });
+            
+            // Adicionar reservas à tabela
+            filteredReservations.forEach(res => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(res.date)}</td>
+                    <td>${res.teacher}</td>
+                    <td>${res.equipment}</td>
+                    <td>${res.startTime}</td>
+                    <td>${res.endTime}</td>
+                    <td class="action-buttons">
+                        <button class="action-btn delete-btn" onclick="deleteReservation('${res.id}')">
+                            <i class="fas fa-trash"></i> Excluir
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function showReservationDetails(id) {
+            const reservation = reservations.find(r => r.id === id);
+            if (!reservation) return;
+            
+            // Em um sistema real, abriríamos um modal com detalhes
+            alert(`Detalhes da Reserva:\n
+Professor: ${reservation.teacher}\n
+Equipamento: ${reservation.equipment}\n
+Data: ${formatDate(reservation.date)}\n
+Horário: ${reservation.startTime} - ${reservation.endTime}`);
+        }
+        
+        function deleteReservation(id) {
+            if (!confirm('Tem certeza que deseja excluir esta reserva?')) return;
+            
+            // Em um sistema real, removeríamos do banco de dados
+            reservations = reservations.filter(r => r.id !== id);
+            
+            // Atualizar a interface
+            renderCalendar(currentMonth, currentYear);
+            loadReservationsList();
+            
+            alert('Reserva excluída com sucesso!');
+        }
+
+        // Funções para relatórios
+        function generateReport() {
+            const tableBody = document.getElementById('reportTable');
+            tableBody.innerHTML = '';
+            
+            const equipmentFilter = document.getElementById('reportEquipmentFilter').value;
+            
+            // Adicionar todos os equipamentos ou filtrar por tipo
+            for (const [tipo, lista] of Object.entries(equipamentos)) {
+                if (equipmentFilter !== 'all' && equipmentFilter !== tipo) continue;
+                
+                lista.forEach(eq => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${eq.id}</td>
+                        <td>${tipo}</td>
+                        <td>${eq.serial}</td>
+                        <td>
+                            <span class="badge ${getStatusBadgeClass(eq.status)}">
+                                ${eq.status}
+                            </span>
+                        </td>
+                        <td>${eq.location}</td>
+                        <td>${formatDate(eq.registrationDate)}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn edit-btn" onclick="editEquipment('${eq.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteEquipment('${eq.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+        
+        function editEquipment(id) {
+            // Encontrar o equipamento pelo ID
+            for (const lista of Object.values(equipamentos)) {
+                const eq = lista.find(e => e.id === id);
+                if (eq) {
+                    alert(`Editando equipamento ${id}`);
+                    // Em um sistema real, abriríamos um modal de edição
+                    return;
+                }
+            }
+            alert('Equipamento não encontrado!');
+        }
+        
+        function deleteEquipment(id) {
+            if (!confirm('Tem certeza que deseja excluir este equipamento?')) return;
+            
+            // Em um sistema real, removeríamos do banco de dados
+            for (const tipo in equipamentos) {
+                equipamentos[tipo] = equipamentos[tipo].filter(eq => eq.id !== id);
+            }
+            
+            // Atualizar o relatório
+            generateReport();
+            
+            alert('Equipamento excluído com sucesso!');
+        }
+
+        // Funções para a aba de registro
+        function fillTeacherEmail() {
+            const teacherSelect = document.getElementById('teacherName');
+            const emailInput = document.getElementById('teacherEmail');
+            const selectedTeacher = teacherSelect.value;
+            
+            if (teacherEmails[selectedTeacher]) {
+                emailInput.value = teacherEmails[selectedTeacher];
+            } else {
+                emailInput.value = '';
+            }
+        }
+        
+        function updateIdentificationNumbers() {
+            const idSelect = document.getElementById('identificationNumber');
+            const serialInput = document.getElementById('serialNumber');
+            const selectedType = document.getElementById('equipmentType').value;
+            
+            // Resetar campos dependentes
+            idSelect.innerHTML = '<option value="">Selecione o aparelho primeiro</option>';
+            serialInput.value = '';
+            
+            if (selectedType && equipamentos[selectedType]) {
+                equipamentos[selectedType].forEach(eq => {
+                    const option = document.createElement('option');
+                    option.value = eq.id;
+                    option.textContent = eq.id;
+                    idSelect.appendChild(option);
+                });
+            }
+        }
+        
+        function fillSerialNumber() {
+            const typeSelect = document.getElementById('equipmentType');
+            const idSelect = document.getElementById('identificationNumber');
+            const serialInput = document.getElementById('serialNumber');
+            const selectedType = typeSelect.value;
+            const selectedId = idSelect.value;
+            
+            if (selectedType && selectedId && equipamentos[selectedType]) {
+                const equipment = equipamentos[selectedType].find(eq => eq.id === selectedId);
+                if (equipment) {
+                    serialInput.value = equipment.serial;
+                    return;
+                }
+            }
+            serialInput.value = '';
+        }
+        
         function updateRoom() {
-            const turma = document.getElementById('studentClass').value;
-            document.getElementById('room').value = salasPorTurmaPeriodo[turma] || '';
+            const classSelect = document.getElementById('studentClass');
+            const roomInput = document.getElementById('room');
+            const selectedClass = classSelect.value;
+            
+            if (salasPorTurmaPeriodo[selectedClass]) {
+                roomInput.value = salasPorTurmaPeriodo[selectedClass];
+            } else {
+                roomInput.value = '';
+            }
         }
-
+        
         function addEquipment() {
-            equipmentCounter++;
             const container = document.getElementById('equipmentContainer');
             const newRow = document.createElement('div');
             newRow.className = 'equipment-row';
             newRow.innerHTML = `
                 <div class="form-group">
-                    <label for="equipmentType${equipmentCounter}">APARELHO:</label>
-                    <select id="equipmentType${equipmentCounter}" class="form-control" onchange="updateIdentificationNumbers('${equipmentCounter}')">
-                        <option value="">Selecione o aparelho</option>
-                        <option value="NOTEBOOK">NOTEBOOK</option>
-                        <option value="TABLET">TABLET</option>
-                        <option value="SMARTPHONE">SMARTPHONE</option>
-                        <option value="HEAD SET">HEAD SET</option>
-                        <option value="CHROMEBOOK">CHROMEBOOK</option>
-                        <option value="CAIXA DE SOM">CAIXA DE SOM</option>
-                    </select>
+                    <label>APARELHO:</label>
+                    <div class="qr-section">
+                        <select class="form-control" onchange="updateIdNumbers(this)">
+                            <option value="">Selecione o aparelho</option>
+                            <option value="CHROMEBOOK">CHROMEBOOK</option>
+                            <option value="NOTEBOOK">NOTEBOOK</option>
+                            <option value="SMARTPHONE">SMARTPHONE</option>
+                            <option value="TABLET">TABLET</option>
+                            <option value="HEAD SET">HEAD SET</option>
+                            <option value="CAIXA DE SOM">CAIXA DE SOM</option>
+                        </select>
+                        <button class="qr-button" onclick="readQRCode(this)">
+                            <i class="fas fa-qrcode"></i> Ler QR Code
+                        </button>
+                    </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="identificationNumber${equipmentCounter}">N° DE IDENTIFICAÇÃO:</label>
-                    <select id="identificationNumber${equipmentCounter}" class="form-control" onchange="fillSerialNumber('${equipmentCounter}')">
+                    <label>N° DE IDENTIFICAÇÃO:</label>
+                    <select class="form-control" onchange="fillSerial(this)">
                         <option value="">Selecione o aparelho primeiro</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label for="serialNumber${equipmentCounter}">N° DE SÉRIE:</label>
-                    <input type="text" id="serialNumber${equipmentCounter}" class="form-control" readonly>
+                    <label>N° DE SÉRIE:</label>
+                    <input type="text" class="form-control" readonly>
                     <div class="auto-fill-label">Preenchido automaticamente</div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="quantity${equipmentCounter}">QUANTIDADE:</label>
-                    <input type="number" id="quantity${equipmentCounter}" class="form-control" min="1" value="1">
+                    <label>QUANTIDADE:</label>
+                    <input type="number" class="form-control" value="1" readonly>
                 </div>
+                
                 <button class="remove-equipment-btn" onclick="removeEquipment(this)">
                     <i class="fas fa-times"></i>
                 </button>
             `;
             container.appendChild(newRow);
         }
-
+        
+        function updateIdNumbers(select) {
+            const row = select.closest('.equipment-row');
+            const idSelect = row.querySelector('.form-group:nth-child(2) select'); // segundo form-group
+            const serialInput = row.querySelector('.form-group:nth-child(3) input');
+            const quantityInput = row.querySelector('.form-group:nth-child(4) input');
+            const selectedEquipment = select.value;
+            
+            // Limpar opções anteriores
+            idSelect.innerHTML = '<option value="">Selecione o aparelho primeiro</option>';
+            
+            if (selectedEquipment && equipamentos[selectedEquipment]) {
+                equipamentos[selectedEquipment].forEach(eq => {
+                    const option = document.createElement('option');
+                    option.value = eq.id;
+                    option.textContent = eq.id;
+                    idSelect.appendChild(option);
+                });
+            }
+            
+            // Resetar campos dependentes
+            serialInput.value = '';
+            quantityInput.value = '0';
+        }
+        
+        function fillSerial(select) {
+            const row = select.closest('.equipment-row');
+            const equipmentType = row.querySelector('.form-group:first-child select').value;
+            const selectedId = select.value;
+            const serialInput = row.querySelector('.form-group:nth-child(3) input');
+            const quantityInput = row.querySelector('.form-group:nth-child(4) input');
+            
+            if (equipmentType && selectedId && equipamentos[equipmentType]) {
+                const equipment = equipamentos[equipmentType].find(eq => eq.id === selectedId);
+                if (equipment) {
+                    serialInput.value = equipment.serial;
+                    quantityInput.value = '1'; // Definir quantidade como 1
+                    return;
+                }
+            }
+            
+            serialInput.value = '';
+            quantityInput.value = '0';
+        }
+        
         function removeEquipment(button) {
             const row = button.closest('.equipment-row');
             if (row && document.querySelectorAll('.equipment-row').length > 1) {
                 row.remove();
             }
         }
-
-        function handleFileUpload() {
-            const fileInput = document.getElementById('fileUpload');
-            const fileList = document.getElementById('fileList');
-            
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                uploadedFiles.push(file);
-                
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <i class="fas fa-file"></i>
-                    <span>${file.name}</span>
-                    <span class="remove-file" onclick="removeFile('${file.name}')">
-                        <i class="fas fa-times"></i>
-                    </span>
-                `;
-                fileList.appendChild(fileItem);
-                fileInput.value = '';
-            }
-        }
-
-        function removeFile(fileName) {
-            uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
-            document.querySelectorAll('.file-item').forEach(item => {
-                if (item.textContent.includes(fileName)) item.remove();
-            });
-        }
-
+        
         function clearForm() {
             document.getElementById('teacherName').value = '';
             document.getElementById('teacherEmail').value = '';
@@ -1357,233 +3394,465 @@
             document.getElementById('withdrawalTime').value = '';
             document.getElementById('returnTime').value = '';
             document.getElementById('registrationCode').value = '';
+            document.getElementById('registrantName').value = '';
             document.getElementById('observation').value = '';
-            document.getElementById('withdrawalPeriod').value = '';
-            document.getElementById('returnPeriod').value = '';
-            document.getElementById('observationPeriod').value = '';
             
-            uploadedFiles = [];
-            document.getElementById('fileList').innerHTML = '';
-            
+            // Manter apenas um campo de equipamento e limpá-lo
             const container = document.getElementById('equipmentContainer');
             container.innerHTML = '';
-            equipmentCounter = 1;
-            addEquipment();
-            
-            document.getElementById('termoContainer').style.display = 'none';
+            addEquipment(); // Adiciona um campo limpo
         }
-
+        
+        function fillRegistrantName() {
+            const codeSelect = document.getElementById('registrationCode');
+            const registrantInput = document.getElementById('registrantName');
+            const selectedCode = codeSelect.value;
+            
+            registrantInput.value = registrantes[selectedCode] || '';
+        }
+        
         function registerEquipment() {
             const teacherName = document.getElementById('teacherName').value;
+            const teacherEmail = document.getElementById('teacherEmail').value;
             const studentClass = document.getElementById('studentClass').value;
+            const room = document.getElementById('room').value;
+            const withdrawalDate = document.getElementById('withdrawalDate').value;
+            const returnDate = document.getElementById('returnDate').value;
+            const withdrawalTime = document.getElementById('withdrawalTime').value;
+            const returnTime = document.getElementById('returnTime').value;
             const registrationCode = document.getElementById('registrationCode').value;
+            const registrantName = document.getElementById('registrantName').value;
+            const observation = document.getElementById('observation').value;
             
+            // Validar campos obrigatórios
             if (!teacherName || !studentClass || !registrationCode) {
-                alert('Preencha todos os campos obrigatórios');
+                alert('Por favor, preencha todos os campos obrigatórios (Professor, Turma e Código de Registro).');
                 return;
             }
             
+            // Coletar equipamentos
+            const equipmentRows = document.querySelectorAll('.equipment-row');
             const equipmentList = [];
-            document.querySelectorAll('.equipment-row').forEach(row => {
-                const id = row.id ? row.id.split('-')[1] : '1';
-                const type = document.getElementById(`equipmentType${id}`)?.value;
-                const ident = document.getElementById(`identificationNumber${id}`)?.value;
-                const serial = document.getElementById(`serialNumber${id}`)?.value;
-                const qty = document.getElementById(`quantity${id}`)?.value || 1;
+            
+            equipmentRows.forEach(row => {
+                const equipmentType = row.querySelector('select').value;
+                const identificationNumber = row.querySelector('.form-group:nth-child(2) select').value;
+                const serialNumber = row.querySelector('.form-group:nth-child(3) input').value;
+                const quantity = row.querySelector('.form-group:nth-child(4) input').value || 1;
                 
-                if (type && ident) {
+                if (equipmentType && identificationNumber && serialNumber) {
                     equipmentList.push({
-                        type,
-                        id: ident,
-                        serial,
-                        quantity: parseInt(qty),
-                        status: "Retirado"
+                        type: equipmentType,
+                        id: identificationNumber,
+                        serial: serialNumber,
+                        quantity: parseInt(quantity)
                     });
                 }
             });
             
             if (equipmentList.length === 0) {
-                alert('Adicione pelo menos um equipamento');
+                alert('Por favor, adicione pelo menos um equipamento válido.');
                 return;
             }
             
+            // Criar registro
             const registro = {
                 id: Date.now(),
                 teacherName,
-                teacherEmail: document.getElementById('teacherEmail').value,
+                teacherEmail,
                 studentClass,
-                room: document.getElementById('room').value,
-                withdrawalDate: document.getElementById('withdrawalDate').value,
-                returnDate: document.getElementById('returnDate').value,
-                withdrawalTime: document.getElementById('withdrawalTime').value,
-                returnTime: document.getElementById('returnTime').value,
-                withdrawalPeriod: document.getElementById('withdrawalPeriod').value,
-                returnPeriod: document.getElementById('returnPeriod').value,
+                room,
+                withdrawalDate,
+                returnDate,
+                withdrawalTime,
+                returnTime,
                 registrationCode,
-                observationPeriod: document.getElementById('observationPeriod').value,
-                observation: document.getElementById('observation').value,
-                files: uploadedFiles.map(f => f.name),
+                registrant: registrantName,
+                observation,
                 equipment: equipmentList,
                 timestamp: new Date().toISOString(),
-                status: "Ativo"
+                status: returnDate && returnTime ? 'Entregue' : 'Não entregue'
             };
             
+            // Adicionar ao array de registros
             registros.push(registro);
-            loadRegistrationTable();
-            alert('Registro realizado com sucesso!');
-            clearForm();
-        }
-
-        function loadRegistrationTable() {
-            const tableBody = document.getElementById('registrationTable');
-            tableBody.innerHTML = '';
             
-            registros.forEach(reg => {
-                reg.equipment.forEach((eq, idx) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        ${idx === 0 ? `<td rowspan="${reg.equipment.length}">${reg.teacherName}</td>` : ''}
-                        <td>${eq.type}</td>
-                        <td>${eq.id}</td>
-                        <td>${eq.serial}</td>
-                        <td>${eq.quantity}</td>
-                        <td>${reg.withdrawalDate} ${reg.withdrawalTime}</td>
-                        <td>${reg.returnDate} ${reg.returnTime}</td>
-                        <td>
-                            <span class="badge ${getStatusBadgeClass(eq.status)}">
-                                <span class="status-indicator ${getStatusIndicatorClass(eq.status)}"></span>
-                                ${eq.status}
-                            </span>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            });
+            // Atualizar a tabela de registros
+            updateRegistrosTable();
+            
+            // Atualizar o termo de responsabilidade
+            updateTermo(registro);
+            
+            alert('Registro realizado com sucesso!');
+            
+            // Mostrar o termo de responsabilidade
+            document.getElementById('termoContainer').style.display = 'block';
         }
-
-        function getStatusBadgeClass(status) {
-            switch(status) {
-                case "Retirado": return "badge-primary";
-                case "Devolvido": return "badge-success";
-                case "Com avarias": return "badge-danger";
-                case "Em manutenção": return "badge-warning";
-                default: return "badge-secondary";
-            }
-        }
-
-        function getStatusIndicatorClass(status) {
-            switch(status) {
-                case "Retirado": return "status-inuse";
-                case "Devolvido": return "status-returned";
-                case "Com avarias": return "status-damaged";
-                case "Em manutenção": return "status-maintenance";
-                default: return "status-available";
-            }
-        }
-
-        function generateTermo() {
+        
+        function generateTerm() {
             const teacherName = document.getElementById('teacherName').value;
             const studentClass = document.getElementById('studentClass').value;
+            const withdrawalDate = document.getElementById('withdrawalDate').value;
+            const returnDate = document.getElementById('returnDate').value;
+            const withdrawalTime = document.getElementById('withdrawalTime').value;
+            const returnTime = document.getElementById('returnTime').value;
+            const registrationCode = document.getElementById('registrationCode').value;
+            const registrantName = document.getElementById('registrantName').value;
             
             if (!teacherName || !studentClass) {
-                alert('Preencha o nome do professor e a turma');
+                alert('Por favor, preencha os campos obrigatórios (Professor e Turma)');
                 return;
             }
             
+            // Coletar equipamentos
+            const equipmentRows = document.querySelectorAll('.equipment-row');
             const equipmentList = [];
-            document.querySelectorAll('.equipment-row').forEach(row => {
-                const id = row.id ? row.id.split('-')[1] : '1';
-                const type = document.getElementById(`equipmentType${id}`)?.value;
-                const ident = document.getElementById(`identificationNumber${id}`)?.value;
-                const serial = document.getElementById(`serialNumber${id}`)?.value;
-                const qty = document.getElementById(`quantity${id}`)?.value || 1;
+            
+            equipmentRows.forEach(row => {
+                const equipmentType = row.querySelector('select').value;
+                const identificationNumber = row.querySelector('.form-group:nth-child(2) select').value;
+                const serialNumber = row.querySelector('.form-group:nth-child(3) input').value;
+                const quantity = row.querySelector('.form-group:nth-child(4) input').value || 1;
                 
-                if (type && ident) {
+                if (equipmentType && identificationNumber && serialNumber) {
                     equipmentList.push({
-                        type,
-                        id: ident,
-                        serial,
-                        quantity: parseInt(qty),
-                        status: "Retirado"
+                        type: equipmentType,
+                        id: identificationNumber,
+                        serial: serialNumber,
+                        quantity: parseInt(quantity)
                     });
                 }
             });
             
-            document.getElementById('termoTeacherName').textContent = teacherName;
-            document.getElementById('termoClass').textContent = studentClass;
-            document.getElementById('termoClass2').textContent = studentClass;
-            document.getElementById('termoWithdrawalDate').textContent = document.getElementById('withdrawalDate').value;
-            document.getElementById('termoWithdrawalTime').textContent = document.getElementById('withdrawalTime').value;
-            document.getElementById('termoReturnDate').textContent = document.getElementById('returnDate').value;
-            document.getElementById('termoReturnTime').textContent = document.getElementById('returnTime').value;
-            document.getElementById('termoWithdrawalPeriod').textContent = document.getElementById('withdrawalPeriod').value;
-            document.getElementById('termoReturnPeriod').textContent = document.getElementById('returnPeriod').value;
-            document.getElementById('termoRegistrant').textContent = document.getElementById('registrationCode').value.split('(')[1]?.replace(')', '') || 'N/I';
-            document.getElementById('termoRegistrationCode').textContent = document.getElementById('registrationCode').value;
-            document.getElementById('termoObservationPeriod').textContent = document.getElementById('observationPeriod').value;
+            if (equipmentList.length === 0) {
+                alert('Por favor, adicione pelo menos um equipamento válido.');
+                return;
+            }
             
+            // Criar objeto para o termo
+            const termoData = {
+                teacherName,
+                studentClass,
+                withdrawalDate,
+                returnDate,
+                withdrawalTime,
+                returnTime,
+                registrationCode,
+                registrant: registrantName,
+                equipment: equipmentList
+            };
+            
+            // Atualizar o termo
+            updateTermo(termoData);
+            
+            // Mostrar o termo
+            document.getElementById('termoContainer').style.display = 'block';
+        }
+        
+        function updateTermo(termoData) {
+            document.getElementById('termoTeacherName').textContent = termoData.teacherName;
+            document.getElementById('termoClass').textContent = termoData.studentClass;
+            document.getElementById('termoClass2').textContent = termoData.studentClass;
+            document.getElementById('termoWithdrawalDate').textContent = termoData.withdrawalDate;
+            document.getElementById('termoWithdrawalTime').textContent = termoData.withdrawalTime;
+            document.getElementById('termoReturnDate').textContent = termoData.returnDate;
+            document.getElementById('termoReturnTime').textContent = termoData.returnTime;
+            document.getElementById('termoRegistrant').textContent = termoData.registrant;
+            document.getElementById('termoRegistrationCode').textContent = termoData.registrationCode;
+            
+            // Preencher tabela de equipamentos
             const tableBody = document.getElementById('termoEquipmentTable');
             tableBody.innerHTML = '';
             
-            equipmentList.forEach(eq => {
+            termoData.equipment.forEach(eq => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${eq.type}</td>
                     <td>${eq.id}</td>
                     <td>${eq.serial}</td>
                     <td>${eq.quantity}</td>
-                    <td>${eq.status}</td>
                 `;
                 tableBody.appendChild(row);
             });
-            
-            document.getElementById('termoContainer').style.display = 'block';
         }
-
+        
         function generatePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
+            // Título
             doc.setFontSize(16);
             doc.text("TERMO DE RESPONSABILIDADE PELO USO E DEVOLUÇÃO DE APARELHOS", 105, 15, null, null, 'center');
             
+            // Conteúdo
             doc.setFontSize(12);
             doc.text(`Eu, ${document.getElementById('termoTeacherName').textContent}, professor(a) da turma ${document.getElementById('termoClass').textContent}, declaro estar ciente e de acordo com as responsabilidades quanto ao uso dos aparelhos listados abaixo, os quais foram retirados em perfeitas condições de funcionamento.`, 15, 30, { maxWidth: 180 });
             
             doc.text("Comprometo-me a:", 15, 50);
             doc.text("- Zelar pelo bom uso dos aparelhos sob minha posse e dos meus alunos durante o período de utilização;", 20, 60);
             doc.text("- Devolver todos os equipamentos nas mesmas condições em que foram entregues;", 20, 70);
-            doc.text("OBSERVAÇÃO: Comunicar imediatamente qualquer dano ou irregularidade ocorrida durante o uso.", 15, 85, { maxWidth: 180 });
             
+            doc.text("OBSERVAÇÃO: Comunicar imediatamente qualquer dano or irregularidade ocorrida durante o uso.", 15, 85, { maxWidth: 180 });
+            
+            // Tabela de equipamentos
             const tableData = [];
-            document.querySelectorAll('#termoEquipmentTable tr').forEach(row => {
-                const rowData = [];
-                row.querySelectorAll('td').forEach(cell => {
-                    rowData.push(cell.textContent);
-                });
-                tableData.push(rowData);
+            const equipmentRows = document.querySelectorAll('#termoEquipmentTable tr');
+            
+            equipmentRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                tableData.push([
+                    cells[0].textContent,
+                    cells[1].textContent,
+                    cells[2].textContent,
+                    cells[3].textContent
+                ]);
             });
             
             doc.autoTable({
-                head: [['Aparelho', 'N° Identificação', 'N° Série', 'Quantidade', 'Status']],
+                head: [['Aparelho', 'N° Identificação', 'N° Série', 'Quantidade']],
                 body: tableData,
                 startY: 95
             });
             
+            // Informações finais
             const lastY = doc.lastAutoTable.finalY + 10;
-            doc.text(`Assinatura do(a) Professor(a): ______`, 15, lastY);
+            doc.text(`Assinatura do(a) Professor(a): ____________________________________________`, 15, lastY);
             doc.text(`Turma: ${document.getElementById('termoClass2').textContent}`, 15, lastY + 10);
+            
             doc.text(`Data da Retirada: ${document.getElementById('termoWithdrawalDate').textContent}`, 15, lastY + 20);
             doc.text(`Horário da Retirada: ${document.getElementById('termoWithdrawalTime').textContent}`, 100, lastY + 20);
+            
             doc.text(`Data da Devolução: ${document.getElementById('termoReturnDate').textContent}`, 15, lastY + 30);
             doc.text(`Horário da Devolução: ${document.getElementById('termoReturnTime').textContent}`, 100, lastY + 30);
-            doc.text(`Período da Retirada: ${document.getElementById('termoWithdrawalPeriod').textContent}`, 15, lastY + 40);
-            doc.text(`Período da Devolução: ${document.getElementById('termoReturnPeriod').textContent}`, 100, lastY + 40);
-            doc.text(`Registrado por: ${document.getElementById('termoRegistrant').textContent}`, 15, lastY + 50);
-            doc.text(`Código: ${document.getElementById('termoRegistrationCode').textContent}`, 15, lastY + 60);
-            doc.text(`Período: ${document.getElementById('termoObservationPeriod').textContent}`, 15, lastY + 70);
             
+            doc.text(`Registrado por: ${document.getElementById('termoRegistrant').textContent}`, 15, lastY + 40);
+            doc.text(`Código: ${document.getElementById('termoRegistrationCode').textContent}`, 15, lastY + 50);
+            
+            // Salvar PDF
             doc.save(`termo_responsabilidade_${document.getElementById('termoTeacherName').textContent}.pdf`);
+        }
+        
+        function updateRegistrosTable() {
+            const tableBody = document.getElementById('registrosTable');
+            tableBody.innerHTML = '';
+            
+            registros.forEach(registro => {
+                const row = document.createElement('tr');
+                
+                // Determinar a classe com base no status de entrega
+                if (!registro.returnDate || !registro.returnTime) {
+                    row.classList.add('not-returned');
+                    registro.status = 'Não entregue';
+                } else {
+                    // Verificar se é entrega parcial
+                    const totalEquipments = registro.equipment.reduce((total, eq) => total + eq.quantity, 0);
+                    const returnedEquipments = registro.returnedQuantity || 0;
+                    
+                    if (returnedEquipments > 0 && returnedEquipments < totalEquipments) {
+                        row.classList.add('partial-return');
+                        registro.status = 'Entrega parcial';
+                    } else {
+                        row.classList.add('returned');
+                        registro.status = 'Entregue';
+                    }
+                }
+                
+                row.innerHTML = `
+                    <td>${formatDate(registro.timestamp)}</td>
+                    <td>${registro.teacherName}</td>
+                    <td>${registro.studentClass}</td>
+                    <td>${registro.room}</td>
+                    <td>${getEquipmentSummary(registro.equipment)}</td>
+                    <td>${formatDate(registro.withdrawalDate)} ${registro.withdrawalTime}</td>
+                    <td>${formatDate(registro.returnDate)} ${registro.returnTime}</td>
+                    <td>${registro.registrant}</td>
+                    <td>${registro.status}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editReturnDate(${registro.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteRegistro(${registro.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function editReturnDate(id) {
+            const registro = registros.find(r => r.id === id);
+            if (!registro) return;
+            
+            const newReturnDate = prompt("Data de entrega (YYYY-MM-DD):", registro.returnDate || '');
+            const newReturnTime = prompt("Hora de entrega (HH:MM):", registro.returnTime || '');
+            const returnedQuantity = prompt("Quantidade entregue:", registro.returnedQuantity || registro.equipment.reduce((total, eq) => total + eq.quantity, 0));
+            
+            if (newReturnDate !== null && newReturnTime !== null && returnedQuantity !== null) {
+                registro.returnDate = newReturnDate;
+                registro.returnTime = newReturnTime;
+                registro.returnedQuantity = parseInt(returnedQuantity);
+                
+                // Atualizar status
+                const totalEquipments = registro.equipment.reduce((total, eq) => total + eq.quantity, 0);
+                if (registro.returnedQuantity === totalEquipments) {
+                    registro.status = 'Entregue';
+                } else if (registro.returnedQuantity > 0) {
+                    registro.status = 'Entrega parcial';
+                } else {
+                    registro.status = 'Não entregue';
+                }
+                
+                updateRegistrosTable();
+                alert('Data de entrega atualizada com sucesso!');
+            }
+        }
+        
+        function getEquipmentSummary(equipmentArray) {
+            const counts = {};
+            equipmentArray.forEach(eq => {
+                counts[eq.type] = (counts[eq.type] || 0) + eq.quantity;
+            });
+            return Object.entries(counts).map(([type, count]) => `${type} (${count})`).join(', ');
+        }
+        
+        function deleteRegistro(id) {
+            if (!confirm('Tem certeza que deseja excluir este registro?')) return;
+            
+            registros = registros.filter(r => r.id !== id);
+            updateRegistrosTable();
+            alert('Registro excluído com sucesso!');
+        }
+
+        // Funções para QR Code
+        function readQRCode(button) {
+            // Em ambiente real, aqui seria a integração com leitor de QR Code
+            // Para demonstração, vamos simular a leitura de um equipamento aleatório
+            
+            const row = button ? button.closest('.equipment-row') : document.querySelector('.equipment-row');
+            const typeSelect = row.querySelector('select');
+            const idSelect = row.querySelector('.form-group:nth-child(2) select');
+            const serialInput = row.querySelector('.form-group:nth-child(3) input');
+            const quantityInput = row.querySelector('.form-group:nth-child(4) input');
+            
+            // Selecionar um tipo aleatório
+            const types = Object.keys(equipamentos);
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            
+            // Selecionar um equipamento aleatório desse tipo
+            const randomEquipment = equipamentos[randomType][Math.floor(Math.random() * equipamentos[randomType].length)];
+            
+            // Preencher os campos
+            typeSelect.value = randomType;
+            updateIdNumbers(typeSelect);
+            
+            // Aguardar um pouco para o dropdown ser preenchido
+            setTimeout(() => {
+                idSelect.value = randomEquipment.id;
+                fillSerial(idSelect);
+                
+                // Mostrar mensagem de sucesso
+                alert(`QR Code lido com sucesso! Equipamento: ${randomEquipment.id}`);
+            }, 100);
+        }
+
+        // Funções para histórico
+        function loadHistory() {
+            const tableBody = document.getElementById('historyList');
+            tableBody.innerHTML = '';
+            
+            const equipmentFilter = document.getElementById('historyEquipmentFilter').value;
+            
+            // Adicionar todos os equipamentos ou filtrar por tipo
+            for (const [tipo, lista] of Object.entries(equipamentos)) {
+                if (equipmentFilter !== 'all' && equipmentFilter !== tipo) continue;
+                
+                lista.forEach(eq => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${eq.id</td>
+                        <td>${tipo}</td>
+                        <td>${eq.serial}</td>
+                        <td>
+                            <span class="badge ${getStatusBadgeClass(eq.status)}">
+                                ${eq.status}
+                            </span>
+                        </td>
+                        <td>${eq.location}</td>
+                        <td>${formatDate(eq.registrationDate)}</td>
+                        <td>
+                            <button class="action-btn info-btn" onclick="showHistoryDetails('${eq.id}')">
+                                <i class="fas fa-info-circle"></i> Detalhes
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+        
+        function showHistoryDetails(id) {
+            const detailsContainer = document.getElementById('historyDetails');
+            const detailsContent = document.getElementById('historyDetailsContent');
+            
+            detailsContent.innerHTML = '';
+            
+            if (equipmentHistory[id] && equipmentHistory[id].length > 0) {
+                detailsContent.innerHTML = '<h4>Histórico de Agendamentos:</h4>';
+                
+                equipmentHistory[id].forEach(history => {
+                    const detailItem = document.createElement('div');
+                    detailItem.className = 'history-detail-item';
+                    detailItem.innerHTML = `
+                        <p><strong>Professor:</strong> ${history.teacher}</p>
+                        <p><strong>Turma:</strong> ${history.class}</p>
+                        <p><strong>Sala:</strong> ${history.room}</p>
+                        <p><strong>Data:</strong> ${formatDate(history.date)}</p>
+                        <p><strong>Horário:</strong> ${history.startTime} - ${history.endTime}</p>
+                    `;
+                    detailsContent.appendChild(detailItem);
+                });
+            } else {
+                detailsContent.innerHTML = '<p>Nenhum histórico de agendamento encontrado para este equipamento.</p>';
+            }
+            
+            detailsContainer.style.display = 'block';
+        }
+
+        // Funções auxiliares
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+        
+        function getStatusBadgeClass(status) {
+            switch (status) {
+                case 'Disponível': return 'badge-success';
+                case 'Em uso': return 'badge-primary';
+                case 'Manutenção': return 'badge-warning';
+                case 'Com avarias': return 'badge-danger';
+                case 'Desuso': return 'badge-secondary';
+                default: return 'badge-secondary';
+            }
+        }
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function showAddEquipmentModal() {
+            openModal('addEquipmentModal');
+        }
+        
+        function saveEquipment() {
+            // Implementação real salvaria no Firebase
+            alert("Equipamento cadastrado com sucesso!");
+            closeModal('addEquipmentModal');
         }
     </script>
 </body>
